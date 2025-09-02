@@ -33,8 +33,9 @@ export default function LoginPage() {
       } else {
         setError("Invalid email or password")
       }
-    } catch (err) {
+    } catch (err: any) {
       setError("An error occurred. Please try again.")
+      setError(err.message);
     }
   }
 

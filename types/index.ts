@@ -12,4 +12,25 @@ export interface User {
         country: string
     }
     joinDate: string
+    role?: "user" | "admin"
+}
+
+export interface Product {
+    id: string
+    name: string
+    price: number
+    category: string
+    description: string
+    productImages: string[]
+    quantity: number
+    sizeOptions: string[]
+    originalPrice: number
+    colors: number
+    sizes: string[]
+    // variations: {
+    //     size: string
+    //     color: string
+    //     stock: number
+    //     images: string[] 
+    // }[]
 }

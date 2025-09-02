@@ -5,8 +5,9 @@ import "./globals.css"
 import { CartProvider } from "@/contexts/cart-context"
 import { AuthProvider } from "@/contexts/auth-context"
 import { CartDrawer } from "@/components/cart-drawer"
-// import { Toaster } from "@/components/ui/toaster"
 import { Toaster } from "react-hot-toast"
+
+import { ReactQueryProvider } from "@/providers/react-query-provider"
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ["latin"],
@@ -28,15 +29,17 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${notoSansJP.variable}`}>
       <body className="font-sans antialiased">
-        <AuthProvider>
-          <CartProvider>
-            {children}
-            <CartDrawer />
-            <Toaster 
-              position="top-right"
-            />
-          </CartProvider>
-        </AuthProvider>
+        <ReactQueryProvider>
+          <AuthProvider>
+            <CartProvider>
+              {children}
+              <CartDrawer />
+              <Toaster 
+                position="top-right"
+              />
+            </CartProvider>
+          </AuthProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   )

@@ -108,7 +108,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         lastName: userData.lastName,
         phone: userData.phone,
         // address: profileData.address,
-        joinDate: new Date().toISOString().split("T")[0] // e.g. "2025-08-31"
+        joinDate: new Date().toISOString().split("T")[0], // e.g. "2025-08-31"
+        role: "user"
       }
 
       // 3. Store user profile in Realtime Database
@@ -119,11 +120,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem("saint-paul-user", JSON.stringify(fullUser))
 
       return true;
-
     } catch(error) {
         console.error("Signup failed:", error)
         return false;
-
     } finally {
       setIsLoading(false);
     }

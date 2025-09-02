@@ -6,9 +6,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 interface ShopFiltersProps {
   defaultCategory?: string
+  handleCategoryChange: (newCategoryFiter: string) => void
 }
 
-export function ShopFilters({ defaultCategory = "all" }: ShopFiltersProps) {
+export function ShopFilters({ defaultCategory = "all", handleCategoryChange }: ShopFiltersProps) {
   const [activeCategory, setActiveCategory] = useState(defaultCategory)
   const [sortBy, setSortBy] = useState("featured")
 
@@ -22,13 +23,21 @@ export function ShopFilters({ defaultCategory = "all" }: ShopFiltersProps) {
 
   return (
     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 pb-6 border-b border-border">
+      {/* <input
+          type="text"
+          placeholder="Search…"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="border p-2 rounded"
+      /> */}
+      
       {/* Category Filters */}
       <div className="flex flex-wrap gap-2">
         {categories.map((category) => (
           <Button
             key={category.value}
             variant={activeCategory === category.value ? "default" : "outline"}
-            onClick={() => setActiveCategory(category.value)}
+            onClick={() => handleCategoryChange(category.value)}
             className="text-sm"
           >
             {category.label}

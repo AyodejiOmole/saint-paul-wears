@@ -7,17 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Minus, Plus, X } from "lucide-react"
 import { useCart } from "@/contexts/cart-context"
 
-interface Product {
-  id: number
-  name: string
-  price: number
-  originalPrice?: number
-  images: string[]
-  category: string
-  gender: string
-  sizes: string[]
-  description: string
-}
+import { Product } from "@/types"
 
 interface ProductQuickViewProps {
   product: Product
@@ -40,7 +30,7 @@ export function ProductQuickView({ product, isOpen, onClose }: ProductQuickViewP
       id: product.id.toString(),
       name: product.name,
       price: product.price,
-      image: product.images[0],
+      image: product.productImages[0],
       size: selectedSize,
       category: product.category,
     })
@@ -63,14 +53,14 @@ export function ProductQuickView({ product, isOpen, onClose }: ProductQuickViewP
           <div className="space-y-4">
             <div className="aspect-square overflow-hidden rounded-lg">
               <img
-                src={product.images[currentImageIndex] || "/placeholder.svg"}
+                src={product.productImages[currentImageIndex] || "/placeholder.svg"}
                 alt={product.name}
                 className="w-full h-full object-cover"
               />
             </div>
-            {product.images.length > 1 && (
+            {product.productImages.length > 1 && (
               <div className="flex gap-2">
-                {product.images.map((image, index) => (
+                {product.productImages.map((image, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}

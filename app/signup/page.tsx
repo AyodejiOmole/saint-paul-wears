@@ -21,6 +21,7 @@ export default function SignupPage() {
     email: "",
     password: "",
     confirmPassword: "",
+    phone: ""
   })
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
@@ -54,6 +55,7 @@ export default function SignupPage() {
         password: formData.password,
         firstName: formData.firstName,
         lastName: formData.lastName,
+        phone: formData.phone,
       })
 
       if (success) {
@@ -114,6 +116,18 @@ export default function SignupPage() {
                       name="email"
                       type="email"
                       value={formData.email}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="phone">Phone</Label>
+                    <Input
+                      id="phone"
+                      name="phone"
+                      type="number"
+                      value={formData.phone}
                       onChange={handleChange}
                       required
                     />
