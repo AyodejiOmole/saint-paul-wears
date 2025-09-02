@@ -21,7 +21,7 @@ export default function WomenShopPage() {
         {/* Filters and Products */}
         <section className="py-8 px-4 max-w-7xl mx-auto">
           <ShopFilters defaultCategory="women" />
-          <ProductGrid category="women" />
+          {/* <ProductGrid category="women" /> */}
         </section>
       </div>
       <Footer />

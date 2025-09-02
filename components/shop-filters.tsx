@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 interface ShopFiltersProps {
   defaultCategory?: string
-  handleCategoryChange: (newCategoryFiter: string) => void
+  handleCategoryChange?: (newCategoryFiter: string) => void
 }
 
 export function ShopFilters({ defaultCategory = "all", handleCategoryChange }: ShopFiltersProps) {
@@ -30,14 +30,14 @@ export function ShopFilters({ defaultCategory = "all", handleCategoryChange }: S
           onChange={(e) => setSearchTerm(e.target.value)}
           className="border p-2 rounded"
       /> */}
-      
+
       {/* Category Filters */}
       <div className="flex flex-wrap gap-2">
         {categories.map((category) => (
           <Button
             key={category.value}
             variant={activeCategory === category.value ? "default" : "outline"}
-            onClick={() => handleCategoryChange(category.value)}
+            onClick={() => handleCategoryChange!(category.value)}
             className="text-sm"
           >
             {category.label}

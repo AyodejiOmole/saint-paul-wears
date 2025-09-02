@@ -27,6 +27,7 @@ export default function CheckoutPage() {
     lastName: "",
     email: "",
     password: "",
+    phone: "",
   })
 
   const [deliveryData, setDeliveryData] = useState({
@@ -142,6 +143,16 @@ export default function CheckoutPage() {
                         type="email"
                         value={signupData.email}
                         onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="email">Phone</Label>
+                      <Input
+                        id="phone"
+                        type="number"
+                        value={signupData.phone}
+                        onChange={(e) => setSignupData({ ...signupData, phone: e.target.value })}
                         required
                       />
                     </div>

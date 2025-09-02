@@ -20,8 +20,8 @@ export default function MenShopPage() {
 
         {/* Filters and Products */}
         <section className="py-8 px-4 max-w-7xl mx-auto">
-          <ShopFilters defaultCategory="men" />
-          <ProductGrid category="men" />
+          <ShopFilters defaultCategory="men"/>
+          {/* <ProductGrid /> */}
         </section>
       </div>
       <Footer />
