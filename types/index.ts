@@ -4,15 +4,19 @@ export interface User {
     firstName: string
     lastName: string
     phone?: string
-    address?: {
-        street: string
-        city: string
-        state: string
-        zipCode: string
-        country: string
-    }
+    address?: Address
     joinDate: string
     role?: "user" | "admin"
+    totalSpent: number
+    totalOrders: number
+}
+
+export interface Address {
+    street: string
+    city: string
+    state: string
+    zipCode: string
+    country: string
 }
 
 export interface Product {
@@ -27,6 +31,9 @@ export interface Product {
     originalPrice: number
     colors: number
     sizes: string[]
+    sku?: string
+    care?: string
+    details?: string[]
     // variations: {
     //     size: string
     //     color: string

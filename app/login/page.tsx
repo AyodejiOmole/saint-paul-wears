@@ -14,6 +14,8 @@ import { Badge } from "@/components/ui/badge"
 import { Eye, EyeOff, LogIn } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 
+import toast from "react-hot-toast"
+
 export default function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -29,6 +31,7 @@ export default function LoginPage() {
     try {
       const success = await login(email, password)
       if (success) {
+        toast.success("Login successful");
         router.push("/dashboard")
       } else {
         setError("Invalid email or password")
@@ -36,6 +39,7 @@ export default function LoginPage() {
     } catch (err: any) {
       setError("An error occurred. Please try again.")
       setError(err.message);
+      toast.error(err.message);
     }
   }
 

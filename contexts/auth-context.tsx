@@ -6,7 +6,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithP
 import { ref, get, set } from "firebase/database";
 
 import { auth, db, googleProvider } from "@/lib/firebase";
-import { User } from "@/types";
+import { User, Address } from "@/types";
 
 interface AuthContextType {
   user: User | null
@@ -62,6 +62,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       const profile = snapshot.val();
+
+      const address = profile.address ? {
+          street: profile.address.street ?? "",
+          city: profile.address.city ?? "",
+          state: profile.address.state ?? "",
+          zipCode: profile.address.zipCode ?? "",
+          country: profile.address.country ?? ""
+      } : null
       
       const appUser: User = {
         id: firebaseUser.uid,
@@ -69,14 +77,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         firstName: profile.firstName,
         lastName: profile.lastName,
         phone: profile.phone,
-        address: {
-          street: profile.address.street,
-          city: profile.address.city,
-          state: profile.address.state,
-          zipCode: profile.address.zipCode,
-          country: profile.address.country
-        },
-        joinDate: profile.joinDate
+        address: address ?? {} as Address,
+        joinDate: profile.joinDate,
+        totalSpent: 0,
+        totalOrders: 0,
       }
 
       setUser(appUser);
@@ -109,7 +113,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         phone: userData.phone,
         // address: profileData.address,
         joinDate: new Date().toISOString().split("T")[0], // e.g. "2025-08-31"
-        role: "user"
+        role: "user",
+        totalSpent: 0,
+        totalOrders: 0,
       }
 
       // 3. Store user profile in Realtime Database
@@ -156,6 +162,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             country: "",
           },
           joinDate: new Date().toISOString().split("T")[0],
+          totalOrders: 0,
+          totalSpent: 0,
         }
 
         await set(userRef, profileData);

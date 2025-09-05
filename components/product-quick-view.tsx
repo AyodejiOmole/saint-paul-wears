@@ -1,12 +1,13 @@
 "use client"
 
 import { useState } from "react"
+import toast from "react-hot-toast"
+import { Minus, Plus, X } from "lucide-react"
+
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Minus, Plus, X } from "lucide-react"
 import { useCart } from "@/contexts/cart-context"
-
 import { Product } from "@/types"
 
 interface ProductQuickViewProps {
@@ -23,7 +24,8 @@ export function ProductQuickView({ product, isOpen, onClose }: ProductQuickViewP
 
   const handleAddToCart = () => {
     if (!selectedSize) {
-      alert("Please select a size")
+      toast.error("Please select a size", { duration: 2000 });
+      // alert("Please select a size")
       return
     }
     addItem({

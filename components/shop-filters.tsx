@@ -17,7 +17,7 @@ export function ShopFilters({ defaultCategory = "all", handleCategoryChange }: S
     { value: "all", label: "All" },
     { value: "tops", label: "Tops" },
     { value: "pants", label: "Pants" },
-    { value: "men", label: "Men" },
+    { value: "Men", label: "Men" },
     { value: "women", label: "Women" },
   ]
 

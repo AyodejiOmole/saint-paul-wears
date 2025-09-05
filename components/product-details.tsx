@@ -1,30 +1,16 @@
 "use client"
 
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Minus, Plus, Share2, ChevronDown, ChevronUp, ArrowLeft } from "lucide-react"
+import { useRouter } from "next/navigation"
+
+import { Product } from "@/types"
 import { ProductImageGallery } from "@/components/product-image-gallery"
 import { useCart } from "@/contexts/cart-context"
 import { useToast } from "@/hooks/use-toast"
-import { useRouter } from "next/navigation"
-
-interface Product {
-  id: number
-  name: string
-  price: number
-  originalPrice?: number
-  images: string[]
-  category: string
-  gender: string
-  sizes: string[]
-  description: string
-  details: string[]
-  care: string
-  sku: string
-  inStock: boolean
-}
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 interface ProductDetailsProps {
   product: Product
@@ -73,7 +59,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
         id: product.id.toString(),
         name: product.name,
         price: product.price,
-        image: product.images[0],
+        image: product.productImages[0],
         size: selectedSize,
         category: product.category,
       })
@@ -102,7 +88,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* Product Images */}
-        <ProductImageGallery images={product.images} productName={product.name} />
+        <ProductImageGallery images={product.productImages} productName={product.name} />
 
         {/* Product Information */}
         <div className="space-y-6">
@@ -241,9 +227,9 @@ export function ProductDetails({ product }: ProductDetailsProps) {
               onClick={handleAddToCart}
               className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
               size="lg"
-              disabled={!product.inStock}
+              disabled={product.quantity !== 0 ? false : true}
             >
-              {product.inStock ? "Add to Cart" : "Out of Stock"}
+              {product.quantity !== 0 ? "Add to Cart" : "Out of Stock"}
             </Button>
 
             <div className="flex gap-3">
@@ -264,7 +250,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
               <div>
                 <p className="text-sm text-muted-foreground mb-2">SKU: {product.sku}</p>
                 <ul className="space-y-1">
-                  {product.details.map((detail, index) => (
+                  {product?.details?.map((detail, index) => (
                     <li key={index} className="text-sm flex items-center">
                       <span className="w-2 h-2 bg-accent rounded-full mr-3 flex-shrink-0" />
                       {detail}

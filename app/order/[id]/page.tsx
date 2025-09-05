@@ -1,12 +1,13 @@
 "use client"
 
 import { useParams, useRouter } from "next/navigation"
+import { ArrowLeft, Package, Truck, CheckCircle, Clock } from "lucide-react"
+
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { ArrowLeft, Package, Truck, CheckCircle, Clock } from "lucide-react"
 
 export default function OrderDetailsPage() {
   const params = useParams()

@@ -45,7 +45,7 @@ export default function ShopPage({ initial }: HomeProps) {
     // },
     initialPageParam: null,
   })
-
+  
   useEffect(() => {
     if (!observerRef.current || !hasNextPage) return
 
@@ -61,6 +61,7 @@ export default function ShopPage({ initial }: HomeProps) {
   const handleCategoryChange = (newCategoryFilter: string) => {
     setCategoryFilter((prev) => prev = newCategoryFilter);
   }
+  console.log(data);
 
   return (
     <main className="min-h-screen">

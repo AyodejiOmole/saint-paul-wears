@@ -32,3 +32,46 @@ export const fetchProducts = async (
 
   return list
 }
+
+export async function getProductById(productId: string): Promise<Product | null> {
+  try {
+    const productRef = ref(db, `products/${productId}`);
+    const snapshot = await get(productRef);
+
+    if (!snapshot.exists()) {
+      return null;
+    }
+
+    return {
+      id: productId,
+      ...snapshot.val(),
+    } as Product;
+  } catch (error) {
+    console.error('Error fetching product:', error);
+    return null;
+  }
+}
+
+export async function fetchLimitedProducts(limitCount: number): Promise<Product[]> {
+  try {
+      const productsRef = ref(db, "products"); // assumes your DB path is /products
+      const limitedQuery = query(productsRef, limitToFirst(limitCount));
+
+      const snapshot = await get(limitedQuery);
+
+      if (!snapshot.exists()) return [];
+
+      const data = snapshot.val();
+
+      // Convert the object { id1: {name, price}, id2: {...} } into an array
+      return Object.entries(data).map(([id, product]) => ({
+        id,
+        ...(product as Omit<Product, "id">),
+      }));
+
+  } catch(error) {
+    console.log(error);
+    return [];
+  }
+}
+
