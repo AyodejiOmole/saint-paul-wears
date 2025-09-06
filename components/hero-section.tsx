@@ -1,30 +1,33 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 // import { ChevronLeft, ChevronRight } from "lucide-react"
 
-const heroImages = [
-  {
-    src: "/images/hero-fashion.png",
-    alt: "Saint Paul Fashion Collection",
-  },
-  {
-    src: "/luxury-fashion-model-wearing-black-streetwear.png",
-    alt: "Luxury Streetwear",
-  },
-  {
-    src: "/premium-black-clothing-collection-display.png",
-    alt: "Premium Collection",
-  },
-  {
-    src: "/fashion-model-in-urban-setting-wearing-designer-cl.png",
-    alt: "Urban Fashion",
-  },
-]
+import { Banner } from "@/types"
+import { Button } from "@/components/ui/button"
 
-export function HeroSection() {
+// const heroImages = [
+//   {
+//     src: "/images/hero-fashion.png",
+//     alt: "Saint Paul Fashion Collection",
+//   },
+//   {
+//     src: "/luxury-fashion-model-wearing-black-streetwear.png",
+//     alt: "Luxury Streetwear",
+//   },
+//   {
+//     src: "/premium-black-clothing-collection-display.png",
+//     alt: "Premium Collection",
+//   },
+//   {
+//     src: "/fashion-model-in-urban-setting-wearing-designer-cl.png",
+//     alt: "Urban Fashion",
+//   },
+// ]
+
+export function HeroSection({ banners }: { banners: Banner[] }) {
+  const heroImages = banners ?? [];
   const [currentSlide, setCurrentSlide] = useState(0)
 
   useEffect(() => {
@@ -52,7 +55,7 @@ export function HeroSection() {
               index === currentSlide ? "opacity-100" : "opacity-0"
             }`}
           >
-            <img src={image.src || "/placeholder.svg"} alt={image.alt} className="w-full h-full object-cover" />
+            <img src={image.image || "/placeholder.svg"} alt={image.header} className="w-full h-full object-cover" />
           </div>
         ))}
         <div className="absolute inset-0 bg-black/40" />

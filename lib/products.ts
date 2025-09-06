@@ -16,7 +16,9 @@ export const fetchProducts = async (
     : query(prodRef, orderByKey(), limitToFirst(pageSize))
 
   // If filtering by category:
-  if (category) prodQuery = query(prodRef, orderByChild("category"), equalTo(category), limitToFirst(pageSize))
+  if (category && category.toString().toLowerCase() !== "all") {
+    prodQuery = query(prodRef, orderByChild("category"), equalTo(category), limitToFirst(pageSize))
+  }
 
   const snapshot = await get(prodQuery)
   if (!snapshot.exists()) return []

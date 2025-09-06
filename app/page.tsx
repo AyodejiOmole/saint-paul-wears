@@ -5,11 +5,16 @@ import { Footer } from "@/components/footer"
 import { ScrollAnimation } from "@/components/scroll-animation"
 import { Navigation } from "@/components/navigation"
 
-export default function HomePage() {
+import { fetchBanners } from "@/lib/banners"
+import { Banner } from "@/types"
+
+export default async function HomePage() {
+  const result: Promise<Banner[]> = fetchBanners();
+  const banners = await result;
   return (
     <main className="min-h-screen">
       <Navigation />
-      <HeroSection />
+      <HeroSection banners={banners} />
       <ScrollAnimation delay={200}>
         <FeaturedProducts />
       </ScrollAnimation>

@@ -29,7 +29,7 @@ export interface Product {
     quantity: number
     sizeOptions: string[]
     originalPrice: number
-    colors: number
+    colors: string[]
     sizes: string[]
     sku?: string
     care?: string
@@ -40,4 +40,21 @@ export interface Product {
     //     stock: number
     //     images: string[] 
     // }[]
+}
+
+export interface Banner {
+    id?: string
+    // name: string
+    header: string
+    secondaryText: string
+    title: string
+    description: string
+    image: string
+    tagline?: string
+    subtitle?: string
+    ctaText?: string
+    ctaLink?: string
+    isActive?: boolean
+    updatedAt: string
+    createdAt: string
 }

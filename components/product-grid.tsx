@@ -8,6 +8,7 @@ import { Product } from "@/types"
 import { Button } from "@/components/ui/button"
 import { ProductQuickView } from "@/components/product-quick-view"
 import { ScrollAnimation } from "@/components/scroll-animation"
+import { concatenateArray } from "@/lib/utils"
 
 interface ProductGridProps {
   isLoading: boolean
@@ -82,7 +83,7 @@ export function ProductGrid({ isLoading, products }: ProductGridProps) {
                           </span>
                         )}
                       </div>
-                      <p className="text-xs md:text-sm text-gray-500">Available in {product.colors} colors</p>
+                      <p className="text-xs md:text-sm text-gray-500">Available in {concatenateArray(product.colors)} colors</p>
                     </div>
                   </div>
                 </Link>

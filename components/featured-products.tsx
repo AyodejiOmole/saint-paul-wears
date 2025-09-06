@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useProducts } from "@/hooks/use-products"
 import { ScrollAnimation } from "./scroll-animation";
 import { Product } from "@/types";
+import { concatenateArray } from "@/lib/utils";
 
 export function FeaturedProducts() {
   const { data: products, isLoading, error } = useProducts(10);
@@ -40,7 +41,7 @@ export function FeaturedProducts() {
                     <div className="text-center space-y-1">
                       <h3 className="font-bold text-[13px] text-black uppercase tracking-wide">{product.name}</h3>
                       <p className="text-[11px] font-normal text-black">{product.price}</p>
-                      <p className="text-[10px] text-gray-500">Available in {product.colors} colors</p>
+                      <p className="text-[10px] text-gray-500">Available in {concatenateArray(product.colors)} colors</p>
                     </div>
                   </div>
                 </Link>

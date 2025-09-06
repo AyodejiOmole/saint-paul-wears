@@ -17,7 +17,7 @@ export function ShopFilters({ defaultCategory = "all", handleCategoryChange }: S
     { value: "all", label: "All" },
     { value: "tops", label: "Tops" },
     { value: "pants", label: "Pants" },
-    { value: "Men", label: "Men" },
+    { value: "men", label: "Men" },
     { value: "women", label: "Women" },
   ]
 
@@ -37,7 +37,10 @@ export function ShopFilters({ defaultCategory = "all", handleCategoryChange }: S
           <Button
             key={category.value}
             variant={activeCategory === category.value ? "default" : "outline"}
-            onClick={() => handleCategoryChange!(category.value)}
+            onClick={() => {
+              setActiveCategory(category.value);
+              handleCategoryChange!(category.value)
+            }}
             className="text-sm"
           >
             {category.label}

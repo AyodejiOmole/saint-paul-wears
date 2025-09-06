@@ -89,7 +89,7 @@ export function ProductQuickView({ product, isOpen, onClose }: ProductQuickViewP
               </Badge>
               <h2 className="font-serif text-2xl font-bold mb-2">{product.name}</h2>
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-accent font-bold text-xl">${product.price}</span>
+                <span className="text-accent font-bold text-xl">₦{product.price}</span>
                 {product.originalPrice && (
                   <span className="text-muted-foreground line-through">${product.originalPrice}</span>
                 )}
@@ -139,7 +139,7 @@ export function ProductQuickView({ product, isOpen, onClose }: ProductQuickViewP
               className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
               size="lg"
             >
-              Add to Cart - ${product.price * quantity}
+              Add to Cart - ₦{product.price * quantity}
             </Button>
           </div>
         </div>
