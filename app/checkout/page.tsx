@@ -77,8 +77,8 @@ export default function CheckoutPage() {
     return Math.round(usdPrice * 800)
   }
 
-  const totalInNaira = convertToNaira(getTotalPrice())
-  const finalTotalInNaira = totalInNaira
+  const totalInNaira = getTotalPrice()
+  const finalTotalInNaira = totalInNaira;
 
   if (state.items.length === 0) {
     return (
@@ -284,6 +284,7 @@ export default function CheckoutPage() {
                     </Button>
                   </form>
                 </CardContent>
+                
               </Card>
             )}
           </div>
@@ -312,13 +313,13 @@ export default function CheckoutPage() {
                           Size: {item.size} • Qty: {item.quantity}
                         </p>
                         <p className="text-sm font-medium">
-                          ₦{convertToNaira(item.price * item.quantity).toLocaleString()}
+                          ₦{(item.price * item.quantity).toLocaleString()}
                         </p>
                       </div>
                     </div>
                   ))}
                 </div>
-
+                  
                 <Separator className="my-4" />
 
                 <div className="space-y-2">
