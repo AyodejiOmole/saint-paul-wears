@@ -1,4 +1,3 @@
-// app/api/paystack/initialize/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { rtdb } from '@/lib/firebaseAdmin';
 import crypto from 'crypto';
