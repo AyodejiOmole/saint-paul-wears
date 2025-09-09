@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
         amount: order.amount, // already in kobo
         currency: order.currency || 'NGN',
         reference,
-        callback_url: callbackUrl ?? `${process.env.NEXT_PUBLIC_APP_URL}/checkout/success?orderId=${orderId}`,
+        callback_url: callbackUrl ?? `${process.env.APP_URL}/checkout/success?orderId=${orderId}`,
         metadata: {
           orderId,
           userId: order.userId,
