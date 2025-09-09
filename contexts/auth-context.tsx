@@ -64,6 +64,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const profile = snapshot.val();
 
       const address = profile.address ? {
+          address: profile.address.address ?? "",
           street: profile.address.street ?? "",
           city: profile.address.city ?? "",
           state: profile.address.state ?? "",
@@ -155,6 +156,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           lastName: firebaseUser.displayName?.split(" ").slice(1).join(" ") || "",
           phone: firebaseUser.phoneNumber || "",
           address: {
+            address: '',
             street: "",
             city: "",
             state: "",

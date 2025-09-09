@@ -69,7 +69,12 @@ export default function CheckoutPage() {
     // Simulate payment processing
     // await new Promise((resolve) => setTimeout(resolve, 2000))
     try {
-      const orderId = await createOrder(state.items, (finalTotalInNaira * 100));
+      const orderId = await createOrder(state.items, (finalTotalInNaira * 100), {
+        address: deliveryData.address,
+        city: deliveryData.city,
+        state: deliveryData.state,
+        zipCode: deliveryData.zipCode,
+      });
       await startPaystack(orderId, user?.email!);
     } catch(error) {
       console.log(error);

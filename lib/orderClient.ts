@@ -1,21 +1,35 @@
-import { push, ref, set, serverTimestamp } from 'firebase/database';
+import { push, ref, set, serverTimestamp, get } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
 
 import type { Order, OrderItem } from '@/types';
 import { db } from './firebase';
 import { CartItem } from '@/contexts/cart-context';
 
-export async function createOrder(items: CartItem[], totalKobo: number): Promise<string> {
+export async function createOrder(items: CartItem[], totalKobo: number, deliveryAddress: any): Promise<string> {
   const auth = getAuth();
   const user = auth.currentUser;
   if (!user) throw new Error('Not authenticated');
 
   const orderRef = push(ref(db, 'orders'));
   const orderId = orderRef.key!;
-  const now = Date.now();
+  const now = Date.now().toString();
+
+  const usersRef = ref(db, `users/${user.uid}`);
+  const snapshot = await get(usersRef);
+  if(!snapshot.exists()) throw new Error("Could not create order.");
+
+  const userData = snapshot.val();
 
   const order: Omit<Order, 'id'> = {
     userId: user.uid,
+    customer: {
+      id: user.uid,
+      email: userData.email,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      phone: userData.phone,
+      address: userData.address
+    },
     items,
     amount: totalKobo,
     currency: 'NGN',
@@ -23,6 +37,7 @@ export async function createOrder(items: CartItem[], totalKobo: number): Promise
     paystack: { reference: null, authorizationUrl: null, accessCode: null },
     createdAt: now,
     updatedAt: now,
+    deliveryAddress: deliveryAddress
   };
 
   await set(orderRef, order);

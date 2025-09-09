@@ -53,6 +53,7 @@ export function CartDrawer() {
                         <h4 className="font-medium text-sm truncate">{item.name}</h4>
                         <p className="text-sm text-muted-foreground">Size: {item.size}</p>
                         <p className="text-sm font-medium">₦{item.price.toLocaleString()}</p>
+                        <p className="text-sm text-muted-foreground">Available Quantity: {item.itemQuantity}</p>
 
                         <div className="flex items-center gap-2 mt-2">
                           <Button
@@ -68,6 +69,7 @@ export function CartDrawer() {
                             variant="outline"
                             size="sm"
                             className="h-8 w-8 p-0 bg-transparent"
+                            disabled={item.itemQuantity < item.quantity}
                             onClick={() => updateQuantity(`${item.id}-${item.size}`, item.quantity + 1)}
                           >
                             <Plus className="h-3 w-3" />

@@ -18,9 +18,12 @@ interface ProductQuickViewProps {
 
 export function ProductQuickView({ product, isOpen, onClose }: ProductQuickViewProps) {
   const [selectedSize, setSelectedSize] = useState("")
+  const [selectedColor, setSelectedColor] = useState("")
   const [quantity, setQuantity] = useState(1)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const { addItem, openCart } = useCart()
+
+  console.log(product);
 
   const handleAddToCart = () => {
     if (!selectedSize) {
@@ -28,6 +31,12 @@ export function ProductQuickView({ product, isOpen, onClose }: ProductQuickViewP
       // alert("Please select a size")
       return
     }
+
+    if(!selectedColor) {
+      toast.error("Please select a color", { duration: 2000 });
+      return;
+    }
+
     addItem({
       id: product.id.toString(),
       name: product.name,
@@ -35,6 +44,8 @@ export function ProductQuickView({ product, isOpen, onClose }: ProductQuickViewP
       image: product.productImages[0],
       size: selectedSize,
       category: product.category,
+      itemQuantity: product.stock,
+      color: selectedColor,
     })
     openCart()
     onClose()
@@ -114,6 +125,28 @@ export function ProductQuickView({ product, isOpen, onClose }: ProductQuickViewP
               </div>
             </div>
 
+            {/* Color Selection */}
+            <div>
+              <h3 className="font-semibold mb-3">Color</h3>
+              <div className="flex flex-wrap gap-2">
+                {product.colors.map((color) => (
+                  <Button
+                    key={color}
+                    variant={selectedColor === color ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setSelectedColor(color)}
+                  >
+                    {color}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h3 className="font-semibold mb-3">Available Quantity</h3>
+              <p className="text-muted-foreground">{product.stock}</p>
+            </div>
+
             {/* Quantity */}
             <div>
               <h3 className="font-semibold mb-3">Quantity</h3>
@@ -127,20 +160,30 @@ export function ProductQuickView({ product, isOpen, onClose }: ProductQuickViewP
                   <Minus className="h-4 w-4" />
                 </Button>
                 <span className="w-12 text-center font-semibold">{quantity}</span>
-                <Button variant="outline" size="icon" onClick={() => setQuantity(quantity + 1)}>
+                <Button variant="outline" size="icon" disabled={product.stock <= quantity} onClick={() => setQuantity(quantity + 1)}>
                   <Plus className="h-4 w-4" />
                 </Button>
               </div>
             </div>
 
             {/* Add to Cart */}
-            <Button
-              onClick={handleAddToCart}
-              className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
-              size="lg"
-            >
-              Add to Cart - ₦{product.price * quantity}
-            </Button>
+              {
+                product.stock ? 
+                  <Button
+                    onClick={handleAddToCart}
+                    className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
+                    size="lg"
+                  >
+                    Add to Cart - ₦{product.price * quantity}
+                  </Button> :
+                  <Button
+                    disabled={true}
+                    className="w-full bg-accent text-accent-foreground"
+                    size="lg"
+                  >
+                    Out of Stock
+                  </Button>
+              }
           </div>
         </div>
       </DialogContent>

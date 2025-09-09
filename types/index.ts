@@ -16,6 +16,7 @@ export interface User {
 
 // types Address
 export interface Address {
+    address: string
     street: string
     city: string
     state: string
@@ -32,6 +33,7 @@ export interface Product {
     description: string
     productImages: string[]
     quantity: number
+    stock: number
     sizeOptions: string[]
     originalPrice: number
     colors: string[]
@@ -89,6 +91,8 @@ export type Order = {
         authorizationUrl: string | null;
         accessCode: string | null;
     };
-    createdAt: number;
-    updatedAt: number;
+    createdAt: string;
+    updatedAt: string;
+    customer: Omit<User, "role" | "totalSpent" | "totalOrders" | "joinDate" | "orders">;
+    deliveryAddress: Address
 };
