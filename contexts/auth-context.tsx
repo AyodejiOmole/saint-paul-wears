@@ -12,7 +12,7 @@ interface AuthContextType {
   user: User | null
   isLoading: boolean
   login: (email: string, password: string) => Promise<boolean>
-  signup: (userData: SignupData) => Promise<boolean>
+  signup: (userData: SignupData) => Promise<{ success: boolean, message: string}>
   logout: () => void
   updateProfile: (userData: Partial<User>) => Promise<boolean>
   setUser: React.Dispatch<React.SetStateAction<User | null>>
@@ -95,7 +95,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const signup = async (userData: SignupData): Promise<boolean> => {
+  const signup = async (userData: SignupData): Promise<{ success: boolean, message: string }> => {
     setIsLoading(true)
 
     try {
@@ -125,10 +125,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(fullUser)
       localStorage.setItem("saint-paul-user", JSON.stringify(fullUser))
 
-      return true;
+      return { success: true, message: "User created."};
     } catch(error) {
         console.error("Signup failed:", error)
-        return false;
+        return { success: false, message: error instanceof Error ? error.message : "Couldn't sign up."};
     } finally {
       setIsLoading(false);
     }
