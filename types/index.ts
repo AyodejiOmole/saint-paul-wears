@@ -1,3 +1,6 @@
+import { CartItem } from "@/contexts/cart-context"
+
+// types User
 export interface User {
     id: string
     email: string
@@ -11,6 +14,7 @@ export interface User {
     totalOrders: number
 }
 
+// types Address
 export interface Address {
     street: string
     city: string
@@ -19,6 +23,7 @@ export interface Address {
     country: string
 }
 
+// types Product
 export interface Product {
     id: string
     name: string
@@ -42,6 +47,7 @@ export interface Product {
     // }[]
 }
 
+// types Banner
 export interface Banner {
     id?: string
     // name: string
@@ -58,3 +64,31 @@ export interface Banner {
     updatedAt: string
     createdAt: string
 }
+
+// types/order.ts
+export type OrderItem = {
+    id: string
+    sku: string;
+    title: string;
+    qty: number;
+    unitPrice: number; // kobo
+};
+
+export type OrderStatus = 'CREATED' | 'INITIATED' | 'AWAITING_WEBHOOK' | 'PAID' | 'FAILED' | 'CANCELLED' | 'REFUNDED';
+
+export type Order = {
+    id: string;
+    userId: string;
+    // items: OrderItem[];
+    items: CartItem[];
+    amount: number;
+    currency: 'NGN';
+    status: OrderStatus;
+    paystack: {
+        reference: string | null;
+        authorizationUrl: string | null;
+        accessCode: string | null;
+    };
+    createdAt: number;
+    updatedAt: number;
+};

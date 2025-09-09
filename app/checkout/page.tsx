@@ -15,6 +15,9 @@ import Image from "next/image"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 
+import { startPaystack, createOrder } from "@/lib/orderClient"
+import toast from "react-hot-toast"
+
 export default function CheckoutPage() {
   const { state, getTotalPrice, clearCart } = useCart()
   const { user, signup } = useAuth()
@@ -64,13 +67,16 @@ export default function CheckoutPage() {
     setIsProcessing(true)
 
     // Simulate payment processing
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-
-    // Clear cart and show success
-    clearCart()
-    alert("Order placed successfully with PayStack!")
-    router.push("/")
-    setIsProcessing(false)
+    // await new Promise((resolve) => setTimeout(resolve, 2000))
+    try {
+      const orderId = await createOrder(state.items, (finalTotalInNaira * 100));
+      await startPaystack(orderId, user?.email!);
+    } catch(error) {
+      console.log(error);
+      toast.error(error instanceof Error ? error.message : "An error occured.");
+    } finally {
+      setIsProcessing(false);
+    }
   }
 
   const convertToNaira = (usdPrice: number) => {
