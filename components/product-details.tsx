@@ -102,7 +102,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
           <div>
             <h3 className="text-[13px] font-bold mb-3">Color</h3>
             <div className="grid grid-cols-4 gap-2">
-              {availableColors.map((color) => (
+              {product.colors.map((color) => (
                 <Button
                   key={color}
                   variant={selectedColor === color ? "default" : "outline"}
@@ -119,18 +119,18 @@ export function ProductDetails({ product }: ProductDetailsProps) {
           <div>
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-[13px] font-bold">Size</h3>
-              <Button
+              {/* <Button
                 variant="link"
                 className="text-sm p-0 h-auto flex items-center gap-1"
                 onClick={() => setShowSizeGuide(!showSizeGuide)}
               >
                 Size Guide
                 {showSizeGuide ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
-              </Button>
+              </Button> */}
             </div>
 
             {/* Collapsible Size Guide Table */}
-            {showSizeGuide && (
+            {/* {showSizeGuide && (
               <div className="mb-4 border rounded-lg overflow-hidden">
                 <div className="bg-gray-50 p-3 font-semibold text-sm border-b">SIZE GUIDE</div>
                 <div className="overflow-x-auto">
@@ -175,7 +175,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
                   </table>
                 </div>
               </div>
-            )}
+            )} */}
 
             <div className="grid grid-cols-6 gap-2">
               {product.sizes.map((size) => (
@@ -204,7 +204,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
                 <Minus className="h-4 w-4" />
               </Button>
               <span className="w-12 text-center font-semibold">{quantity}</span>
-              <Button variant="outline" size="icon" onClick={() => setQuantity(quantity + 1)}>
+              <Button variant="outline" disabled={product.stock <= quantity} size="icon" onClick={() => setQuantity(quantity + 1)}>
                 <Plus className="h-4 w-4" />
               </Button>
             </div>
@@ -216,9 +216,9 @@ export function ProductDetails({ product }: ProductDetailsProps) {
               onClick={handleAddToCart}
               className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
               size="lg"
-              disabled={product.quantity !== 0 ? false : true}
+              disabled={product.stock !== 0 ? false : true}
             >
-              {product.quantity !== 0 ? "Add to Cart" : "Out of Stock"}
+              {product.stock !== 0 ? "Add to Cart" : "Out of Stock"}
             </Button>
 
             <div className="flex gap-3">
@@ -229,7 +229,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
           </div>
 
           {/* Product Details Tabs */}
-          <Tabs defaultValue="details" className="w-full">
+          {/* <Tabs defaultValue="details" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="details">Details</TabsTrigger>
               <TabsTrigger value="care">Care</TabsTrigger>
@@ -252,7 +252,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
             <TabsContent value="care" className="space-y-4">
               <p className="text-sm leading-relaxed">{product.care}</p>
             </TabsContent>
-          </Tabs>
+          </Tabs> */}
         </div>
       </div>
     </div>
