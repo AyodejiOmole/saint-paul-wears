@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation"
 
 import { startPaystack, createOrder } from "@/lib/orderClient"
 import toast from "react-hot-toast"
+import { Address } from "@/types"
 
 export default function CheckoutPage() {
   const { state, getTotalPrice, clearCart } = useCart()
@@ -67,14 +68,17 @@ export default function CheckoutPage() {
     setIsProcessing(true)
 
     // Start payment processing
+    const deliveryAddress: Omit<Address, "country" | "street"> = {
+      address: deliveryData.address,
+      city: deliveryData.city,
+      state: deliveryData.state,
+      zipCode: deliveryData.zipCode,
+    }
+
     try {
-      const orderId = await createOrder(state.items, 10000, "Mainland", (finalTotalInNaira * 100), {
-        address: deliveryData.address,
-        city: deliveryData.city,
-        state: deliveryData.state,
-        zipCode: deliveryData.zipCode,
-      });
+      const orderId = await createOrder(state.items, 10000, "Mainland", (finalTotalInNaira * 100), deliveryAddress);
       await startPaystack(orderId, user?.email!);
+      console.log(deliveryData);
     } catch(error) {
       console.log(error);
       toast.error(error instanceof Error ? error.message : "An error occured.");

@@ -1,11 +1,11 @@
 import { push, ref, set, serverTimestamp, get } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
 
-import type { Order, OrderItem } from '@/types';
+import type { Order, Address } from '@/types';
 import { db } from './firebase';
 import { CartItem } from '@/contexts/cart-context';
 
-export async function createOrder(items: CartItem[], deliveryFee: number, selectedLocation: string, totalKobo: number, deliveryAddress: any): Promise<string> {
+export async function createOrder(items: CartItem[], deliveryFee: number, selectedLocation: string, totalKobo: number, deliveryAddress: Omit<Address, "country" | "street">): Promise<string> {
   const auth = getAuth();
   const user = auth.currentUser;
   if (!user) throw new Error('Not authenticated');
@@ -28,7 +28,7 @@ export async function createOrder(items: CartItem[], deliveryFee: number, select
       firstName: userData.firstName,
       lastName: userData.lastName,
       phone: userData.phone,
-      address: userData.address
+      address: userData.address ?? "",
     },
     items,
     subTotal: totalKobo,

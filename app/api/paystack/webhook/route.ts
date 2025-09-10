@@ -24,14 +24,21 @@ async function decrementInventoryForOrder(order: Order) {
   const sums = new Map<string, number>();
   for (const it of order.items) {
     const key = `${it.id}`;
-    sums.set(key, (sums.get(key) || 0) + Number(it.quantity));
+    const quantity = Number(it.quantity);
+    sums.set(key, (sums.get(key) || 0) + quantity);
   }
 
   for (const [key, qty] of sums) {
+    console.log(sums);
     // const [productId, variantId] = key.split('::');
     const stockRef = rtdb.ref(`products/${key}/stock`);
+
+    // Optional pre-check (debugging, not required for transaction)
+    const snap = await stockRef.get();
+    console.log('Stock before transaction:', snap.val());
+
     const txRes = await stockRef.transaction((current) => {
-      const curN = Number(current || 0);
+      const curN = Number(snap.val() || 0);
       if (curN < qty) {
         // Abort transaction -> return undefined
         return;
@@ -45,7 +52,7 @@ async function decrementInventoryForOrder(order: Order) {
         const ref = rtdb.ref(`products/${c.productId}/stock`);
         await ref.transaction((cur) => (Number(cur || 0) + c.qty));
       }
-      return { ok: false, reason: `Insufficient stock for ${key}}` };
+      return { ok: false, reason: `Insufficient stock for ${key}` };
     }
 
     // success, push to changed list
@@ -98,6 +105,8 @@ export async function POST(req: NextRequest) {
       updates[`payments/${ref}/raw/webhook`] = event.data;
       updates[`webhooks/${ref}`] = { processed: true, event: eventName, createdAt: now, note: inv.reason };
       await rtdb.ref().update(updates);
+
+      console.log(inv.changed);
 
       // TODO: trigger refund via Paystack API or notify admin
       return NextResponse.json({ ok: true, note: 'out_of_stock' });

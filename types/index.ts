@@ -17,11 +17,11 @@ export interface User {
 // types Address
 export interface Address {
     address: string
-    street: string
+    street?: string
     city: string
     state: string
     zipCode: string
-    country: string
+    country?: string
 }
 
 // types Product
