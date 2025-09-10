@@ -3,11 +3,11 @@
 import { useState } from "react"
 import { Minus, Plus, Share2, ChevronDown, ChevronUp, ArrowLeft } from "lucide-react"
 import { useRouter } from "next/navigation"
+import toast from "react-hot-toast"
 
 import { Product } from "@/types"
 import { ProductImageGallery } from "@/components/product-image-gallery"
 import { useCart } from "@/contexts/cart-context"
-import { useToast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -22,7 +22,6 @@ export function ProductDetails({ product }: ProductDetailsProps) {
   const [quantity, setQuantity] = useState(1)
   const [showSizeGuide, setShowSizeGuide] = useState(false)
   const { addItem, openCart } = useCart()
-  const { toast } = useToast()
   const router = useRouter()
 
   const availableColors = ["Black", "White", "Gray", "Navy"]
@@ -38,19 +37,11 @@ export function ProductDetails({ product }: ProductDetailsProps) {
 
   const handleAddToCart = () => {
     if (!selectedSize) {
-      toast({
-        variant: "destructive",
-        title: "Size Required",
-        description: "Please select a size before adding to cart.",
-      })
+      toast.error("Please select a size before adding to cart.", { duration: 2000 })
       return
     }
     if (!selectedColor) {
-      toast({
-        variant: "destructive",
-        title: "Color Required",
-        description: "Please select a color before adding to cart.",
-      })
+      toast.error("Please select a color before adding to cart.", { duration: 2000 })
       return
     }
 
@@ -62,14 +53,12 @@ export function ProductDetails({ product }: ProductDetailsProps) {
         image: product.productImages[0],
         size: selectedSize,
         category: product.category,
+        itemQuantity: product.stock,
+        color: selectedColor,
       })
     }
 
-    toast({
-      title: "Added to Cart",
-      description: `${product.name} (${selectedColor}, ${selectedSize}) has been added to your cart.`,
-    })
-
+    toast.success("Added to Cart")
     openCart()
   }
 

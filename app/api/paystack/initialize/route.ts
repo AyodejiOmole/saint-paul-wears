@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { rtdb } from '@/lib/firebaseAdmin';
-import crypto from 'crypto';
+// import crypto from 'crypto';
+// import { Order, Product } from '@/types';
+import { validateInventory } from '@/lib/utils';
 
 export const runtime = 'nodejs';
 
@@ -9,6 +11,7 @@ type InitBody = {
   email: string; // Paystack requires customer email
   callbackUrl?: string; // optional if you want Paystack to redirect here
 };
+
 
 export async function POST(req: NextRequest) {
   try {
@@ -23,8 +26,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Order not in CREATED state' }, { status: 400 });
     }
 
+    const result = await validateInventory(order);
+    if(!result.ok && result.failures.length > 0) {
+      return NextResponse.json({ error: result.failures }, { status: 400 });
+    }
+
     // Create unique reference (idempotent key)
     const reference = `ORD_${orderId}_${Date.now()}`;
+
+    // Recompute subTotal from items server-side
+    const subTotal = (order.items || []).reduce((s: number, it: any) => s + Number(it.price) * Number(it.quantity), 0);
+    const deliveryFee = Number(order.deliveryFee || 0);
+
+    // Ensure we don't add delivery twice:
+    const amount = subTotal + deliveryFee;
 
     const initRes = await fetch('https://api.paystack.co/transaction/initialize', {
       method: 'POST',
@@ -34,7 +49,7 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify({
         email,
-        amount: order.amount, // already in kobo
+        amount: amount * 100, // convert to kobo
         currency: order.currency || 'NGN',
         reference,
         callback_url: callbackUrl ?? `${process.env.APP_URL}/checkout/success?orderId=${orderId}`,
@@ -52,6 +67,7 @@ export async function POST(req: NextRequest) {
 
     // Atomic update: mark order INITIATED + write payment record
     const now = Date.now();
+    await rtdb.ref(`orders/${orderId}`).update({ subTotal, amount });
     const updates: Record<string, any> = {};
     updates[`orders/${orderId}/status`] = 'INITIATED';
     updates[`orders/${orderId}/paystack`] = {

@@ -81,7 +81,7 @@ export function CartDrawer() {
                         variant="ghost"
                         size="sm"
                         className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                        onClick={() => removeItem(`${item.id}-${item.size}`)}
+                        onClick={() => removeItem(item.id)}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>

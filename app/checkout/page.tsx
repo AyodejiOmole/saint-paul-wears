@@ -66,10 +66,9 @@ export default function CheckoutPage() {
     e.preventDefault()
     setIsProcessing(true)
 
-    // Simulate payment processing
-    // await new Promise((resolve) => setTimeout(resolve, 2000))
+    // Start payment processing
     try {
-      const orderId = await createOrder(state.items, (finalTotalInNaira * 100), {
+      const orderId = await createOrder(state.items, 10000, "Mainland", (finalTotalInNaira * 100), {
         address: deliveryData.address,
         city: deliveryData.city,
         state: deliveryData.state,

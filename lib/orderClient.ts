@@ -5,7 +5,7 @@ import type { Order, OrderItem } from '@/types';
 import { db } from './firebase';
 import { CartItem } from '@/contexts/cart-context';
 
-export async function createOrder(items: CartItem[], totalKobo: number, deliveryAddress: any): Promise<string> {
+export async function createOrder(items: CartItem[], deliveryFee: number, selectedLocation: string, totalKobo: number, deliveryAddress: any): Promise<string> {
   const auth = getAuth();
   const user = auth.currentUser;
   if (!user) throw new Error('Not authenticated');
@@ -31,7 +31,10 @@ export async function createOrder(items: CartItem[], totalKobo: number, delivery
       address: userData.address
     },
     items,
-    amount: totalKobo,
+    subTotal: totalKobo,
+    amount: totalKobo + deliveryFee,
+    deliveryFee: deliveryFee,
+    selectedLocation: selectedLocation,
     currency: 'NGN',
     status: 'CREATED',
     paystack: { reference: null, authorizationUrl: null, accessCode: null },
@@ -42,6 +45,7 @@ export async function createOrder(items: CartItem[], totalKobo: number, delivery
 
   await set(orderRef, order);
   await set(ref(db, `users/${user.uid}/orders/${orderId}`), true);
+  await set(ref(db, `users/${user.uid}/totalOrders/${orderId}`), userData.totalOrders + 1);
   return orderId;
 }
 

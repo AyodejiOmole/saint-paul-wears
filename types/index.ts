@@ -83,7 +83,8 @@ export type Order = {
     userId: string;
     // items: OrderItem[];
     items: CartItem[];
-    amount: number;
+    subTotal: number; //sum(items.price * quantity) for all items
+    amount: number; // subTotal + deliveryFee
     currency: 'NGN';
     status: OrderStatus;
     paystack: {
@@ -94,5 +95,7 @@ export type Order = {
     createdAt: string;
     updatedAt: string;
     customer: Omit<User, "role" | "totalSpent" | "totalOrders" | "joinDate" | "orders">;
-    deliveryAddress: Address
+    deliveryAddress: Address;
+    deliveryFee: number;
+    selectedLocation: string;
 };
