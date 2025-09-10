@@ -42,7 +42,11 @@ export function Navigation() {
               Home
             </Link>
 
-            <div
+            <Link href="/shop" className="text-foreground hover:text-accent transition-colors font-medium">
+              Shop
+            </Link>
+
+            {/* <div
               className="relative"
               onMouseEnter={() => setIsShopHovered(true)}
               onMouseLeave={() => setIsShopHovered(false)}
@@ -74,7 +78,7 @@ export function Navigation() {
                   </Link>
                 </div>
               )}
-            </div>
+            </div> */}
 
             <Link href="/about" className="text-foreground hover:text-accent transition-colors font-medium">
               About
