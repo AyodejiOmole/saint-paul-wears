@@ -185,7 +185,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
                   className="aspect-square"
                   onClick={() => setSelectedSize(size)}
                 >
-                  {size}
+                  {size.toUpperCase()}
                 </Button>
               ))}
             </div>
@@ -221,11 +221,11 @@ export function ProductDetails({ product }: ProductDetailsProps) {
               {product.stock !== 0 ? "Add to Cart" : "Out of Stock"}
             </Button>
 
-            <div className="flex gap-3">
+            {/* <div className="flex gap-3">
               <Button variant="outline" size="icon" className="bg-transparent">
                 <Share2 className="h-4 w-4" />
               </Button>
-            </div>
+            </div> */}
           </div>
 
           {/* Product Details Tabs */}

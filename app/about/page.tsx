@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { Heart, Users, Globe, Award } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { Footer } from "@/components/footer"
 
 export default function AboutPage() {
   return (
@@ -179,7 +180,7 @@ export default function AboutPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-foreground text-background py-12">
+      {/* <footer className="bg-foreground text-background py-12">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-4 gap-8">
@@ -236,7 +237,8 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </footer>
+      </footer> */}
+      <Footer />
     </div>
   )
 }

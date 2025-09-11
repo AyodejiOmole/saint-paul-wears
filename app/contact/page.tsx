@@ -1,7 +1,10 @@
 "use client"
 
 import type React from "react"
+import { MapPin, Phone, Mail, Clock, Send } from "lucide-react"
+import { useState } from "react"
 
+import { Footer } from "@/components/footer"
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -9,8 +12,6 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { MapPin, Phone, Mail, Clock, Send } from "lucide-react"
-import { useState } from "react"
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -233,7 +234,7 @@ export default function ContactPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-foreground text-background py-12">
+      {/* <footer className="bg-foreground text-background py-12">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-4 gap-8">
@@ -290,7 +291,9 @@ export default function ContactPage() {
             </div>
           </div>
         </div>
-      </footer>
+      </footer> */}
+
+      <Footer />
     </div>
   )
 }
