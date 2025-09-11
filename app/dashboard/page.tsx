@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation"
 import { Input } from "@/components/ui/input"
 import { User, Package, Settings, LogOut, Edit } from "lucide-react"
 import { useQuery } from "@tanstack/react-query"
+import toast from "react-hot-toast"
 
 import { useAuth } from "@/contexts/auth-context"
 import { fetchOrders } from "@/lib/orders"
@@ -15,18 +16,29 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Address } from "@/types"
+import { useUpdateAddress } from "@/hooks/use-update-address"
 
 export default function DashboardPage() {
   const { user, logout, isLoading } = useAuth()
   const router = useRouter()
   const [isEditingAddress, setIsEditingAddress] = useState(false)
-  const [editAddress, setEditAddress] = useState({
+  const [editAddress, setEditAddress] = useState<Address>({
+    address: user?.address?.address || "",
     street: user?.address?.street || "",
     city: user?.address?.city || "",
     state: user?.address?.state || "",
     zipCode: user?.address?.zipCode || "",
-    country: user?.address?.country || "",
+    // country: user?.address?.country || "",
   })
+
+  const updateAddress = useUpdateAddress(user?.id ?? "", () => {
+    setIsEditingAddress(false);
+    toast.success("Address updated successfully!");
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
+  });
 
   useEffect(() => {
     if (!isLoading && !user) {
@@ -36,8 +48,8 @@ export default function DashboardPage() {
 
   const handleSaveAddress = () => {
     console.log("Saving address:", editAddress)
-    setIsEditingAddress(false)
-    alert("Address updated successfully!")
+
+    updateAddress.mutate(editAddress);
   }
 
   const handleCancelEdit = () => {
@@ -46,7 +58,8 @@ export default function DashboardPage() {
       city: user?.address?.city || "",
       state: user?.address?.state || "",
       zipCode: user?.address?.zipCode || "",
-      country: user?.address?.country || "",
+      // country: user?.address?.country || "",
+      address: user?.address?.address || "",
     })
     setIsEditingAddress(false)
   }
@@ -251,6 +264,14 @@ export default function DashboardPage() {
                       {isEditingAddress ? (
                         <div className="space-y-4">
                           <div>
+                            <Label className="text-sm font-medium">Address</Label>
+                            <Input
+                              value={editAddress.address}
+                              onChange={(e) => setEditAddress({ ...editAddress, address: e.target.value })}
+                              placeholder="Enter address"
+                            />
+                          </div>
+                          <div>
                             <Label className="text-sm font-medium">Street Address</Label>
                             <Input
                               value={editAddress.street}
@@ -285,19 +306,20 @@ export default function DashboardPage() {
                                 placeholder="ZIP Code"
                               />
                             </div>
-                            <div>
+                            {/* <div>
                               <Label className="text-sm font-medium">Country</Label>
                               <Input
                                 value={editAddress.country}
                                 onChange={(e) => setEditAddress({ ...editAddress, country: e.target.value })}
                                 placeholder="Country"
                               />
-                            </div>
+                            </div> */}
                           </div>
                           <div className="flex gap-2">
-                            <Button onClick={handleSaveAddress} size="sm">
-                              Save Changes
+                            <Button onClick={handleSaveAddress} disabled={updateAddress.isPending} size="sm">
+                              {updateAddress.isPending ? "Saving..." : "Save changes"}
                             </Button>
+
                             <Button onClick={handleCancelEdit} variant="outline" size="sm">
                               Cancel
                             </Button>
@@ -309,7 +331,7 @@ export default function DashboardPage() {
                           <p className="text-sm">
                             {user.address.city}, {user.address.state} {user.address.zipCode}
                           </p>
-                          <p className="text-sm">{user.address.country}</p>
+                          {/* <p className="text-sm">{user.address.country}</p> */}
                         </div>
                       ) : (
                         <p className="text-sm text-muted-foreground">No address provided</p>
@@ -318,7 +340,7 @@ export default function DashboardPage() {
                   </Card>
                 </div>
 
-                <Card>
+                {/* <Card>
                   <CardHeader>
                     <CardTitle className="text-[13px] font-bold">Account Actions</CardTitle>
                   </CardHeader>
@@ -333,7 +355,7 @@ export default function DashboardPage() {
                       Delete Account
                     </Button>
                   </CardContent>
-                </Card>
+                </Card> */}
               </TabsContent>
             </Tabs>
           </div>
