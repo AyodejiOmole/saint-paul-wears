@@ -41,7 +41,7 @@ export function FeaturedProducts() {
                     <div className="text-center space-y-1">
                       <h3 className="font-bold text-[13px] text-black uppercase tracking-wide">{product.name}</h3>
                       <p className="text-[11px] font-normal text-black">₦{(product.price).toLocaleString('en-NG')}</p>
-                      <p className="text-[10px] text-gray-500">Available in {concatenateArray(product.colors)} colors</p>
+                      <p className="text-[10px] text-gray-500">Available in {product.colors ? concatenateArray(product.colors) : "many"} colors</p>
                     </div>
                   </div>
                 </Link>
