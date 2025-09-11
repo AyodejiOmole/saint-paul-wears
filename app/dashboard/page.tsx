@@ -4,14 +4,17 @@ import type React from "react"
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { Input } from "@/components/ui/input"
+import { User, Package, Settings, LogOut, Edit } from "lucide-react"
+import { useQuery } from "@tanstack/react-query"
+
+import { useAuth } from "@/contexts/auth-context"
+import { fetchOrders } from "@/lib/orders"
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Input } from "@/components/ui/input"
-import { User, Package, Settings, LogOut, Edit } from "lucide-react"
-import { useAuth } from "@/contexts/auth-context"
 
 export default function DashboardPage() {
   const { user, logout, isLoading } = useAuth()
@@ -48,6 +51,12 @@ export default function DashboardPage() {
     setIsEditingAddress(false)
   }
 
+  const { data } = useQuery({
+    queryKey: ["orders"],
+    queryFn: fetchOrders
+  })
+  const orders = data ?? [];
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
@@ -65,23 +74,6 @@ export default function DashboardPage() {
   if (!user) {
     return null
   }
-
-  const mockOrders = [
-    {
-      id: "SP-001",
-      date: "2024-01-20",
-      status: "Delivered",
-      total: 149.99,
-      items: ["Black Premium T-Shirt", "Saint Paul Hoodie"],
-    },
-    {
-      id: "SP-002",
-      date: "2024-01-15",
-      status: "Shipped",
-      total: 89.99,
-      items: ["Premium Joggers"],
-    },
-  ]
 
   return (
     <div className="min-h-screen bg-background">
@@ -132,8 +124,8 @@ export default function DashboardPage() {
                       <CardTitle className="text-[13px] font-bold">Total Orders</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">12</div>
-                      <p className="text-[11px] text-muted-foreground">+2 from last month</p>
+                      <div className="text-2xl font-bold">{ orders.length ?? 0}</div>
+                      {/* <p className="text-[11px] text-muted-foreground">+2 from last month</p> */}
                     </CardContent>
                   </Card>
 
@@ -142,8 +134,8 @@ export default function DashboardPage() {
                       <CardTitle className="text-[13px] font-bold">Total Spent</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">₦1,247,000</div>
-                      <p className="text-[11px] text-muted-foreground">+₦240,000 from last month</p>
+                      <div className="text-2xl font-bold">₦{ orders.reduce((sum, order) => sum + order.amount, 0)}</div>
+                      {/* <p className="text-[11px] text-muted-foreground">+₦240,000 from last month</p> */}
                     </CardContent>
                   </Card>
                 </div>
@@ -154,18 +146,18 @@ export default function DashboardPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      {mockOrders.slice(0, 2).map((order) => (
+                      {orders.slice(0, 2).map((order) => (
                         <div key={order.id} className="flex items-center justify-between p-4 border rounded-lg">
                           <div>
                             <p className="font-medium">Order #{order.id}</p>
-                            <p className="text-sm text-muted-foreground">{order.date}</p>
-                            <p className="text-sm text-muted-foreground">{order.items.join(", ")}</p>
+                            <p className="text-sm text-muted-foreground">{order.createdAt}</p>
+                            {/* <p className="text-sm text-muted-foreground">{order.items.join(", ")}</p> */}
                           </div>
                           <div className="text-right">
-                            <Badge variant={order.status === "Delivered" ? "default" : "secondary"}>
+                            <Badge variant={order.status === "PAID" ? "default" : "secondary"}>
                               {order.status}
                             </Badge>
-                            <p className="text-sm font-medium mt-1">${order.total}</p>
+                            <p className="text-sm font-medium mt-1">₦{order.amount}</p>
                           </div>
                         </div>
                       ))}
@@ -182,18 +174,18 @@ export default function DashboardPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      {mockOrders.map((order) => (
+                      {orders.map((order) => (
                         <div key={order.id} className="flex items-center justify-between p-4 border rounded-lg">
                           <div>
                             <p className="font-medium">Order #{order.id}</p>
-                            <p className="text-sm text-muted-foreground">{order.date}</p>
-                            <p className="text-sm text-muted-foreground">{order.items.join(", ")}</p>
+                            <p className="text-sm text-muted-foreground">{order.createdAt}</p>
+                            {/* <p className="text-sm text-muted-foreground">{order.items.join(", ")}</p> */}
                           </div>
                           <div className="text-right">
-                            <Badge variant={order.status === "Delivered" ? "default" : "secondary"}>
+                            <Badge variant={order.status === "PAID" ? "default" : "secondary"}>
                               {order.status}
                             </Badge>
-                            <p className="text-sm font-medium mt-1">₦{(order.total * 800).toLocaleString()}</p>
+                            <p className="text-sm font-medium mt-1">₦{(order.amount).toLocaleString()}</p>
                             <Button
                               variant="outline"
                               size="sm"

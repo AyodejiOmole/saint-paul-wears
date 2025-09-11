@@ -86,6 +86,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       setUser(appUser);
       localStorage.setItem("saint-paul-user", JSON.stringify(appUser));
+      const expiry = new Date();
+      expiry.setHours(expiry.getHours() + 3); // +3 hour
+      document.cookie = `loggedIn=true; path=/; expires=${expiry.toUTCString()}`;
+      
       return true;
 
     } catch(error: any) {
