@@ -30,12 +30,14 @@ export default function ConfirmPayment() {
 
   return (
     <main className="p-6">
-      <h1 className="text-2xl font-semibold">Payment Status</h1>
-      <p className="mt-2">Order: {orderId}</p>
-      <p className="mt-2">Status: {status}</p>
-      {status === 'PAID' && <p className="mt-4">🎉 Payment confirmed!</p>}
-      {status === 'FAILED' && <p className="mt-4">❌ Payment failed.</p>}
-      {['CREATED','INITIATED','AWAITING_WEBHOOK'].includes(status) && <p className="mt-4">⏳ Waiting for confirmation…</p>}
+        <div className="p-6 text-center shadow-lg border-sm justify-center items-center flex-row align-center">
+            <h1 className="text-2xl font-semibold">Payment Status</h1>
+            <p className="mt-2">Order: {orderId}</p>
+            <p className="mt-2">Status: {status}</p>
+            {status === 'PAID' && <p className="mt-4">🎉 Payment confirmed!</p>}
+            {status === 'FAILED' && <p className="mt-4">❌ Payment failed.</p>}
+            {['CREATED','INITIATED','AWAITING_WEBHOOK'].includes(status) && <p className="mt-4">⏳ Waiting for confirmation…</p>}
+        </div>
     </main>
   );
 }
