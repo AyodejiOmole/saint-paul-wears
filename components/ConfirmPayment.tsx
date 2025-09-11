@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react';
 import { onValue, ref } from 'firebase/database';
 import { db } from '@/lib/firebase';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 export default function ConfirmPayment() {
   const params = useSearchParams();
@@ -12,13 +12,18 @@ export default function ConfirmPayment() {
   const reference = params.get('reference'); // Paystack may append ref
   const [status, setStatus] = useState('LOADING');
 
+  const router = useRouter();
+
   useEffect(() => {
     if (!orderId) return;
     // Verify quickly (optional)
     if (reference) fetch(`/api/paystack/verify?reference=${reference}&orderId=${orderId}`).catch(() => {});
     // Subscribe to order status
     const unsub = onValue(ref(db, `orders/${orderId}/status`), (snap) => {
-      setStatus(snap.val());
+        setStatus(snap.val());
+        setTimeout(() => {
+            router.push("/dashboard");
+        }, 1000);
     });
     return () => unsub();
   }, [orderId, reference]);
