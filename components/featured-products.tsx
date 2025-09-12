@@ -13,8 +13,8 @@ export function FeaturedProducts() {
   return (
     <section className="py-16 px-4 max-w-7xl mx-auto">
       <div className="text-center mb-12">
-        <h2 className="text-[13px] font-bold mb-4">Featured Collection</h2>
-        <p className="text-muted-foreground text-[11px] max-w-2xl mx-auto">
+        <h2 className="text-[18px] font-bold mb-4">Featured Collection</h2>
+        <p className="text-muted-foreground text-[14px] max-w-2xl mx-auto">
           Discover our carefully curated selection of premium pieces that embody the Saint Paul aesthetic
         </p>
       </div>

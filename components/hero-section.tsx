@@ -46,7 +46,7 @@ export function HeroSection({ banners }: { banners: Banner[] }) {
   }
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative h-[70vh] md:h-[80vh] flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 z-0">
         {heroImages.map((image, index) => (
           <div
@@ -75,7 +75,7 @@ export function HeroSection({ banners }: { banners: Banner[] }) {
         <ChevronRight className="w-6 h-6" />
       </button> */}
 
-      <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 flex space-x-2">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex space-x-2">
         {heroImages.map((_, index) => (
           <button
             key={index}
@@ -89,13 +89,13 @@ export function HeroSection({ banners }: { banners: Banner[] }) {
 
       {/* Content */}
       <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
-        <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl font-bold mb-6 tracking-tight drop-shadow-2xl saint-paul-glow">
+        <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold mb-4 tracking-tight drop-shadow-2xl saint-paul-glow">
           SAINT PAUL
         </h1>
-        <p className="text-2xl md:text-3xl mb-8 font-light tracking-widest uppercase drop-shadow-lg">
+        <p className="text-xl md:text-2xl mb-6 font-light tracking-widest uppercase drop-shadow-lg">
           Wear the Message
         </p>
-        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mt-12">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
           {/* <Button
             asChild
             size="lg"
@@ -107,7 +107,7 @@ export function HeroSection({ banners }: { banners: Banner[] }) {
             asChild
             variant="outline"
             size="lg"
-            className="border-2 border-white text-white hover:bg-white hover:text-black px-10 py-4 text-lg font-medium bg-transparent tracking-wide transition-all duration-300 hover:scale-105"
+            className="border-2 border-white text-white hover:bg-white hover:text-black px-8 py-3 text-base font-medium bg-transparent tracking-wide transition-all duration-300 hover:scale-105"
           >
             <Link href="/shop">Explore Collections</Link>
           </Button>

@@ -50,7 +50,7 @@ export default function AboutPage() {
                   <Link href="/shop">Explore Our Collection</Link>
                 </Button>
               </div>
-              <div className="relative">
+              {/* <div className="relative">
                 <div className="aspect-square rounded-2xl overflow-hidden">
                   <Image
                     src="/saint-paul-brand-philosophy-image.png"
@@ -60,7 +60,7 @@ export default function AboutPage() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -123,40 +123,40 @@ export default function AboutPage() {
       </section>
 
       {/* Founder Section */}
-      <section className="py-16 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="grid lg:grid-cols-3 gap-12 items-center">
-              <div className="lg:col-span-1">
-                <div className="aspect-square rounded-2xl overflow-hidden">
-                  <Image
-                    src="/saint-paul-founder-portrait.png"
-                    alt="Saint Paul Founder"
-                    width={400}
-                    height={400}
-                    className="w-full h-full object-cover"
-                  />
+        <section className="py-16 bg-muted/30">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="grid lg:grid-cols-3 gap-12 items-center">
+                <div className="lg:col-span-1">
+                  <div className="aspect-square rounded-2xl overflow-hidden">
+                    <Image
+                      src="/saintpaulfounder.png"
+                      alt="Saint Paul Founder"
+                      width={490}
+                      height={1080}
+                      className="w-full h-full object-cover object-top"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="lg:col-span-2">
-                <Badge variant="secondary" className="mb-4">
-                  Founder's Note
-                </Badge>
-                <h2 className="font-serif text-3xl font-bold mb-6">A Message from Our Founder</h2>
-                <blockquote className="text-lg text-muted-foreground leading-relaxed mb-6 italic">
-                  "Fashion has always been my language of choice. Through Saint Paul, I wanted to create more than just
-                  clothing— I wanted to build a platform where style meets substance, where every thread carries
-                  intention, and where wearing our pieces means joining a movement of conscious expression."
-                </blockquote>
-                <div>
-                  <p className="font-semibold">Jordan Saint Paul</p>
-                  <p className="text-muted-foreground">Founder & Creative Director</p>
+                <div className="lg:col-span-2">
+                  <Badge variant="secondary" className="mb-4">
+                    Founder's Note
+                  </Badge>
+                  <h2 className="font-serif text-3xl font-bold mb-6">A Message from Our Founder</h2>
+                  <blockquote className="text-lg text-muted-foreground leading-relaxed mb-6 italic">
+                    "Fashion has always been my language of choice. Through Saint Paul, I wanted to create more than just
+                    clothing— I wanted to build a platform where style meets substance, where every thread carries
+                    intention, and where wearing our pieces means joining a movement of conscious expression."
+                  </blockquote>
+                  <div>
+                    <p className="font-semibold">Ighedo Paul</p>
+                    <p className="text-muted-foreground">Founder & Creative Director</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
       {/* CTA Section */}
       <section className="py-16">
