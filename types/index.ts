@@ -76,7 +76,7 @@ export type OrderItem = {
     unitPrice: number; // kobo
 };
 
-export type OrderStatus = 'CREATED' | 'INITIATED' | 'AWAITING_WEBHOOK' | 'PAID' | 'FAILED' | 'CANCELLED' | 'REFUNDED';
+export type OrderStatus = 'CREATED' | 'INITIATED' | 'AWAITING_WEBHOOK' | 'PENDING' | 'PAID' | 'FAILED' | 'CANCELLED' | 'REFUNDED';
 
 export type Order = {
     id: string;

@@ -36,7 +36,7 @@ export default function ConfirmPayment() {
             <p className="mt-2">Status: {status}</p>
             {status === 'PAID' && <p className="mt-4">🎉 Payment confirmed!</p>}
             {status === 'FAILED' && <p className="mt-4">❌ Payment failed.</p>}
-            {['CREATED','INITIATED','AWAITING_WEBHOOK'].includes(status) && <p className="mt-4">⏳ Waiting for confirmation…</p>}
+            {['CREATED','INITIATED','AWAITING_WEBHOOK', 'PENDING'].includes(status) && <p className="mt-4">⏳ Waiting for confirmation…</p>}
         </div>
     </main>
   );

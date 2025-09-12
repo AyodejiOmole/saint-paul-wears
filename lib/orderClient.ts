@@ -1,14 +1,43 @@
-import { push, ref, set, serverTimestamp, get } from 'firebase/database';
+import { push, ref, set, update, get } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
 
 import type { Order, Address } from '@/types';
 import { db } from './firebase';
 import { CartItem } from '@/contexts/cart-context';
 
+export async function validateInventory(items: CartItem[]): Promise<{ ok: boolean, failures: string[] }> {
+  // aggregate qty per product+variant (to catch duplicates in same order)
+  const sums = new Map<string, number>();
+  for (const it of items) {
+    const key = `${it.id}`;
+    sums.set(key, (sums.get(key) || 0) + it.quantity);
+  }
+
+  const failures: string[] = [];
+  for (const [key, qty] of sums) {
+    // const [productId, variantId] = key.split('::');
+    const productRef = ref(db, `products/${key}`);
+    const snap = await get(productRef);
+    if(!snap.exists()) failures.push(`Product ${key} does not exist`);
+    const productData = snap.val();
+
+    const stock = snap.exists() ? Number(productData.stock) : 0;
+    if (stock < qty) {
+      failures.push(`${productData.name} only ${stock} left`);
+    }
+  }
+  return { ok: failures.length === 0, failures };
+}
+
 export async function createOrder(items: CartItem[], deliveryFee: number, selectedLocation: string, totalKobo: number, deliveryAddress: Omit<Address, "country" | "street">): Promise<string> {
   const auth = getAuth();
   const user = auth.currentUser;
   if (!user) throw new Error('Not authenticated');
+
+  const result = await validateInventory(items);
+  if(!result.ok && result.failures.length > 0) {
+    throw new Error(result.failures.join(", "));
+  }
 
   const orderRef = push(ref(db, 'orders'));
   const orderId = orderRef.key!;
@@ -46,7 +75,7 @@ export async function createOrder(items: CartItem[], deliveryFee: number, select
   await set(orderRef, order);
   await set(ref(db, `users/${user.uid}/orders/${orderId}`), true);
   // await set(ref(db, `users/${user.uid}/totalOrders`), userData.totalOrders + 1);
-  await set(ref(db, `users/${user.uid}`), {
+  await update(ref(db, `users/${user.uid}`), {
     totalOrders: (userData.totalOrders ?? 0) + 1
   });
   return orderId;
