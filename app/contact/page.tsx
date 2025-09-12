@@ -105,7 +105,7 @@ export default function ContactPage() {
 
               {/* Contact Information */}
               <div className="space-y-8">
-                <Card>
+                {/* <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-2xl font-serif">
                       <MapPin className="h-6 w-6" />
@@ -128,9 +128,9 @@ export default function ContactPage() {
                       <span>Mon-Fri: 10AM-7PM, Sat-Sun: 11AM-6PM</span>
                     </div>
                   </CardContent>
-                </Card>
+                </Card> */}
 
-                <Card>
+               <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-2xl font-serif">
                       <Phone className="h-6 w-6" />
@@ -140,13 +140,13 @@ export default function ContactPage() {
                   <CardContent className="space-y-4">
                     <div>
                       <h4 className="font-semibold mb-2">Customer Service</h4>
-                      <p className="text-muted-foreground">+1 (555) 123-4567</p>
+                      <a 
+                        href="tel:+2348076142336" 
+                        className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                      >
+                        +2348076142336
+                      </a>
                       <p className="text-sm text-muted-foreground">Mon-Fri: 9AM-8PM EST</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold mb-2">Press & Partnerships</h4>
-                      <p className="text-muted-foreground">+1 (555) 123-4568</p>
-                      <p className="text-sm text-muted-foreground">Mon-Fri: 10AM-6PM EST</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -161,16 +161,16 @@ export default function ContactPage() {
                   <CardContent className="space-y-4">
                     <div>
                       <h4 className="font-semibold mb-2">General Inquiries</h4>
-                      <p className="text-muted-foreground">hello@saintpaul.com</p>
+                      <p className="text-muted-foreground">wearsaintpaul@gmail.com</p>
                     </div>
                     <div>
                       <h4 className="font-semibold mb-2">Customer Support</h4>
-                      <p className="text-muted-foreground">support@saintpaul.com</p>
+                      <p className="text-muted-foreground">wearsaintpaul@gmail.com</p>
                     </div>
-                    <div>
+                    {/* <div>
                       <h4 className="font-semibold mb-2">Press & Media</h4>
-                      <p className="text-muted-foreground">press@saintpaul.com</p>
-                    </div>
+                      <p className="text-muted-foreground">wearsaintpaul@gmail.com</p>
+                    </div> */}
                   </CardContent>
                 </Card>
               </div>
@@ -193,8 +193,7 @@ export default function ContactPage() {
                 <CardContent className="pt-6">
                   <h4 className="font-semibold mb-3">What is your return policy?</h4>
                   <p className="text-muted-foreground text-sm">
-                    We offer a 30-day return policy for unworn items in original condition. Returns are free for orders
-                    over $100.
+                    We offer a 30-day return policy for unworn items in original condition. 
                   </p>
                 </CardContent>
               </Card>
@@ -209,7 +208,7 @@ export default function ContactPage() {
                 </CardContent>
               </Card>
 
-              <Card>
+              {/* <Card>
                 <CardContent className="pt-6">
                   <h4 className="font-semibold mb-3">Do you ship internationally?</h4>
                   <p className="text-muted-foreground text-sm">
@@ -217,7 +216,7 @@ export default function ContactPage() {
                     destination.
                   </p>
                 </CardContent>
-              </Card>
+              </Card> */}
 
               <Card>
                 <CardContent className="pt-6">
