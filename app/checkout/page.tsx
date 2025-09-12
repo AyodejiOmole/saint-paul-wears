@@ -298,7 +298,6 @@ export default function CheckoutPage() {
                     </Button>
                   </form>
                 </CardContent>
-                
               </Card>
             )}
           </div>

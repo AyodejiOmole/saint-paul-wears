@@ -45,7 +45,10 @@ export async function createOrder(items: CartItem[], deliveryFee: number, select
 
   await set(orderRef, order);
   await set(ref(db, `users/${user.uid}/orders/${orderId}`), true);
-  await set(ref(db, `users/${user.uid}/totalOrders`), userData.totalOrders + 1);
+  // await set(ref(db, `users/${user.uid}/totalOrders`), userData.totalOrders + 1);
+  await set(ref(db, `users/${user.uid}`), {
+    totalOrders: (userData.totalOrders ?? 0) + 1
+  });
   return orderId;
 }
 

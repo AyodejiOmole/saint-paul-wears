@@ -24,17 +24,6 @@ export function ProductDetails({ product }: ProductDetailsProps) {
   const { addItem, openCart } = useCart()
   const router = useRouter()
 
-  const availableColors = ["Black", "White", "Gray", "Navy"]
-
-  const sizeGuideData = [
-    { size: "XS", bodyLength: "27", chest: "21", sleeveLength: "32" },
-    { size: "S", bodyLength: "28", chest: "22", sleeveLength: "33" },
-    { size: "M", bodyLength: "29", chest: "23", sleeveLength: "34" },
-    { size: "L", bodyLength: "30", chest: "24", sleeveLength: "35" },
-    { size: "XL", bodyLength: "31¾", chest: "25¾", sleeveLength: "36" },
-    { size: "XXL", bodyLength: "32¾", chest: "27½", sleeveLength: "37" },
-  ]
-
   const handleAddToCart = () => {
     if (!selectedSize) {
       toast.error("Please select a size before adding to cart.", { duration: 2000 })
