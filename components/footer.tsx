@@ -1,9 +1,41 @@
+"use client";
+
 import Link from "next/link"
+import { useState } from "react";
 import { Instagram, Twitter, Facebook } from "lucide-react"
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
 export function Footer() {
+  const [email, setEmail] = useState<string>("");
+
+  const mutation = useMutation({
+    mutationFn: async (payload: any) => {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload),
+      })
+      if(!res.ok) throw new Error("Could not subscribe at the moment.");
+      return res.json();
+    },
+    onSuccess: () => {
+      toast.success("You have subscribed to our newsletter.");
+    },
+    onError: (error) => {
+      toast.error(error instanceof Error ? error.message : "Could not subscribe at the moment.");
+    }
+  });
+
+  const handleSubscribe = () => {
+    mutation.mutate({ email: email });
+  }
+  
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="max-w-7xl mx-auto px-4 py-16">
@@ -63,10 +95,12 @@ export function Footer() {
             <div className="flex gap-2">
               <Input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Your email"
                 className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60"
               />
-              <Button variant="secondary" size="sm">
+              <Button onClick={handleSubscribe} variant="secondary" size="sm">
                 Subscribe
               </Button>
             </div>

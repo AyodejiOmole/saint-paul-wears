@@ -21,6 +21,24 @@ export async function fetchOrders(): Promise<Order[]> {
     }
 } 
 
+export async function fetchOrdersByUserId(): Promise<Order[]> {
+    try {
+        const ordersRef = ref(db, "orders");
+
+        const snapshot = await get(ordersRef);
+        if(!snapshot.exists()) return []
+
+        const data = snapshot.val();
+
+        let list = Object.entries(data).map(([id, val]) => ({ ...(val as any), id }))
+
+        return list;
+    } catch(error) {
+        console.log("Error fetching orders, ", error);
+        return [];
+    }
+} 
+
 export async function getOrderById(orderId: string): Promise<Order | null> {
   try {
     const orderRef = ref(db, `orders/${orderId}`);

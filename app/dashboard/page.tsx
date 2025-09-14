@@ -6,18 +6,17 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Input } from "@/components/ui/input"
 import { User, Package, Settings, LogOut, Edit } from "lucide-react"
-import { useQuery } from "@tanstack/react-query"
 import toast from "react-hot-toast"
 
 import { useAuth } from "@/contexts/auth-context"
-import { fetchOrders } from "@/lib/orders"
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Address } from "@/types"
+import { Address, Order } from "@/types"
 import { useUpdateAddress } from "@/hooks/use-update-address"
+import { useUserOrders } from "@/hooks/use-user-orders"
 
 export default function DashboardPage() {
   const { user, logout, isLoading } = useAuth()
@@ -64,10 +63,7 @@ export default function DashboardPage() {
     setIsEditingAddress(false)
   }
 
-  const { data } = useQuery({
-    queryKey: ["orders"],
-    queryFn: fetchOrders
-  })
+  const { data, } = useUserOrders(user?.id);
   const orders = data ?? [];
 
   if (isLoading) {
@@ -147,7 +143,7 @@ export default function DashboardPage() {
                       <CardTitle className="text-[13px] font-bold">Total Spent</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">₦{ orders.reduce((sum, order) => sum + order.amount, 0)}</div>
+                      <div className="text-2xl font-bold">₦{ (orders.reduce((sum: number, order: Order) => sum + order.amount, 0)).toLocaleString() }</div>
                       {/* <p className="text-[11px] text-muted-foreground">+₦240,000 from last month</p> */}
                     </CardContent>
                   </Card>
@@ -159,7 +155,7 @@ export default function DashboardPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      {orders.slice(0, 2).map((order) => (
+                      {orders.slice(0, 2).map((order: Order) => (
                         <div key={order.id} className="flex items-center justify-between p-4 border rounded-lg">
                           <div>
                             <p className="font-medium">Order #{order.id}</p>
@@ -187,7 +183,7 @@ export default function DashboardPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      {orders.map((order) => (
+                      {orders.map((order: Order) => (
                         <div key={order.id} className="flex items-center justify-between p-4 border rounded-lg">
                           <div>
                             <p className="font-medium">Order #{order.id}</p>
