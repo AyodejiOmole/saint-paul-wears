@@ -1,6 +1,13 @@
 "use client"
 
 import type React from "react"
+import { useEffect } from "react"
+import { ArrowLeft, MapPin, Lock } from "lucide-react"
+import Link from "next/link"
+import Image from "next/image"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import toast from "react-hot-toast"
 
 import { useCart } from "@/contexts/cart-context"
 import { useAuth } from "@/contexts/auth-context"
@@ -9,15 +16,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowLeft, MapPin, Lock } from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-
 import { startPaystack, createOrder } from "@/lib/orderClient"
-import toast from "react-hot-toast"
 import { Address } from "@/types"
+
+type DeliveryFees = {
+  lagos: number;
+  others: number;
+};
 
 export default function CheckoutPage() {
   const { state, getTotalPrice, clearCart } = useCart()
@@ -44,6 +49,26 @@ export default function CheckoutPage() {
     zipCode: "",
     phone: "",
   })
+
+  const [fees, setFees] = useState<DeliveryFees>({ lagos: 0, others: 0 });
+  const [selectedState, setSelectedState] = useState("");
+  const [deliveryFee, setDeliveryFee] = useState(0);
+
+  useEffect(() => {
+    fetch("/api/delivery-fee")
+      .then((res) => res.json())
+      .then((data) => setFees(data));
+  }, []);
+
+  useEffect(() => {
+    if (deliveryData.state.toLowerCase() === "lagos") {
+      setDeliveryFee(fees.lagos);
+    } else if (deliveryData.state) {
+      setDeliveryFee(fees.others);
+    } else {
+      setDeliveryFee(0);
+    }
+  }, [deliveryData.state, fees]);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -75,8 +100,13 @@ export default function CheckoutPage() {
       zipCode: deliveryData.zipCode,
     }
 
+    if(!deliveryAddress) {
+      toast.error("Please enter delivery details to proceed!");
+      return;
+    }
+
     try {
-      const orderId = await createOrder(state.items, 10000, "Mainland", (finalTotalInNaira * 100), deliveryAddress);
+      const orderId = await createOrder(state.items, deliveryFee, "Mainland", (finalTotalInNaira * 100), deliveryAddress);
       await startPaystack(orderId, user?.email!);
       console.log(deliveryData);
     } catch(error) {
@@ -342,7 +372,7 @@ export default function CheckoutPage() {
                   </div>
                   <div className="flex justify-between">
                     <span>Shipping</span>
-                    <span>Free</span>
+                    <span>{ deliveryData.state ? `₦${deliveryFee.toLocaleString()}` : "Choose a location."}</span>
                   </div>
                   <Separator />
                   <div className="flex justify-between text-lg font-semibold">
