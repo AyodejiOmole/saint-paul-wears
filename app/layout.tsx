@@ -19,6 +19,9 @@ const notoSansJP = Noto_Sans_JP({
 export const metadata: Metadata = {
   title: "Saint Paul - Wear the Message",
   description: "Premium soulful fashion brand - where the product is always the message",
+  icons: {
+    icon: "/favicon.ico", // path in /public
+  },
 }
 
 export default function RootLayout({

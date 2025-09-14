@@ -28,7 +28,8 @@ export function Navigation() {
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <Image
-              src="/images/saint-paul-logo-new.png"
+              // src="/images/saint-paul-logo-new.png"
+              src="/images/saint_paul_logo-latest.png"
               alt="Saint Paul"
               width={40}
               height={40}
