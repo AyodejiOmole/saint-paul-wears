@@ -347,11 +347,11 @@ export function Navigation() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button variant="ghost" size="icon" asChild>
-                <Link href="/login">
-                  <User className="h-5 w-5" />
-                </Link>
-              </Button>
+                <div>
+                  <Link href="/login" className="text-foreground hover:text-accent transition-colors font-medium">
+                    Login
+                  </Link>
+                </div>
             )}
 
             <CartIcon />
@@ -386,17 +386,17 @@ export function Navigation() {
             </div> */}
 
             {/* Mobile Menu Items */}
-            <div className="bg-white z-1 h-full pt-8">
+            <div className="bg-white z-1 h-[100vh] pt-8">
               <div className="px-4 space-y-4 w-full">
                 <Link
                   href="/"
-                  className="block text-lg font-medium text-foreground hover:text-accent transition-colors py-2 border-b border-transparent hover:border-accent"
+                  className="block text-sm font-medium text-foreground hover:text-accent transition-colors py-2 border-b hover:border-accent"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   HOME
                 </Link>
 
-                <Link href="/shop" className="block text-lg text-foreground hover:text-accent font-medium hover:text-accent transition-colors py-2 border-b border-transparent hover:border-accent">
+                <Link href="/shop" className="block text-sm text-foreground hover:text-accent font-medium hover:text-accent transition-colors py-2 border-b hover:border-accent">
                   SHOP
                 </Link>
 
@@ -438,7 +438,7 @@ export function Navigation() {
 
                 <Link
                   href="/about"
-                  className="block text-lg font-medium text-foreground hover:text-accent transition-colors py-2 border-b border-transparent hover:border-accent"
+                  className="block text-sm font-medium text-foreground hover:text-accent transition-colors py-2 border-b hover:border-accent"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   ABOUT
@@ -446,7 +446,7 @@ export function Navigation() {
 
                 <Link
                   href="/contact"
-                  className="block text-lg font-medium text-foreground hover:text-accent transition-colors py-2 border-b border-transparent hover:border-accent"
+                  className="block text-sm font-medium text-foreground hover:text-accent transition-colors py-2 border-b hover:border-accent"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   CONTACT
@@ -454,7 +454,7 @@ export function Navigation() {
 
                 <Link
                   href="/contact"
-                  className="block text-lg font-medium text-foreground hover:text-accent transition-colors py-2 border-b border-transparent hover:border-accent"
+                  className="block text-sm font-medium text-foreground hover:text-accent transition-colors py-2 border-b hover:border-accent"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   FAQ
@@ -462,12 +462,12 @@ export function Navigation() {
               </div>
 
               {/* Mobile Footer */}
-              <div className="px-4 py-8 border-t border-border">
+              <div className="px-4 py-8">
                 {user ? (
                   <div className="space-y-4">
                     <Link
                       href="/dashboard"
-                      className="block text-lg font-medium text-foreground hover:text-accent transition-colors"
+                      className="block text-sm border-b font-medium text-foreground hover:text-accent transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Dashboard
@@ -477,7 +477,7 @@ export function Navigation() {
                         logout()
                         setIsMenuOpen(false)
                       }}
-                      className="block w-full text-left text-lg font-medium text-foreground hover:text-accent transition-colors"
+                      className="block w-full text-left text-sm font-medium text-foreground hover:text-accent transition-colors"
                     >
                       Sign Out
                     </button>
@@ -485,10 +485,10 @@ export function Navigation() {
                 ) : (
                   <Link
                     href="/login"
-                    className="flex items-center text-lg font-medium text-foreground hover:text-accent transition-colors"
+                    className="flex items-center text-sm border-b font-medium text-foreground hover:text-accent transition-colors pb-4"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <User className="h-5 w-5 mr-3" />
+                    <User className="h-4 w-4 mr-3" />
                     Login
                   </Link>
                 )}
