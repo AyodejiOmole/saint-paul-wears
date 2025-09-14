@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import { ArrowLeft, MapPin, Lock } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -122,7 +122,11 @@ export default function CheckoutPage() {
   }
 
   const totalInNaira = getTotalPrice()
-  const finalTotalInNaira = totalInNaira;
+  const finalTotalInNaira = useMemo(() => {
+    return totalInNaira + deliveryFee;
+  }, [deliveryFee])
+
+  // const finalTotalInNaira = totalInNaira + deliveryFee;
 
   if (state.items.length === 0) {
     return (

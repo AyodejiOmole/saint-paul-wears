@@ -140,8 +140,8 @@ export function Footer() {
                 placeholder="Your email"
                 className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60"
               />
-              <Button onClick={handleSubscribe} variant="secondary" size="sm">
-                Subscribe
+              <Button onClick={handleSubscribe} disabled={mutation.isPending ? true : false} variant="secondary" size="sm">
+                { mutation.isPending ? "Subscribing..." : "Subscribe"}
               </Button>
             </div>
           </div>

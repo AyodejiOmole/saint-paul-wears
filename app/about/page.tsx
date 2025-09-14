@@ -35,7 +35,8 @@ export default function AboutPage() {
       <section className="py-16 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* grid lg:grid-cols-2 gap-12 */}
+            <div className="flex text-center justify-center align-center items-center">
               <div>
                 <h2 className="font-serif text-4xl font-bold mb-6">Our Mission</h2>
                 <p className="text-lg text-muted-foreground leading-relaxed mb-6">
