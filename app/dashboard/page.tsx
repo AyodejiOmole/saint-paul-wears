@@ -34,6 +34,14 @@ export default function DashboardPage() {
   const updateAddress = useUpdateAddress(user?.id ?? "", () => {
     setIsEditingAddress(false);
     toast.success("Address updated successfully!");
+
+    let savedUser;
+    const savedStorage = localStorage.getItem("saint-paul-user");
+    if (savedStorage) {
+      savedUser = JSON.parse(savedStorage);
+    }
+    localStorage.setItem("saint-paul-user", JSON.stringify({ ...savedUser, address: editAddress }));
+    
     setTimeout(() => {
       window.location.reload();
     }, 1500);

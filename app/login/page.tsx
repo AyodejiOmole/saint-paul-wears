@@ -15,6 +15,7 @@ import { Eye, EyeOff, LogIn } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 
 import toast from "react-hot-toast"
+import { mapFirebaseAuthError } from "@/lib/utils"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -37,9 +38,10 @@ export default function LoginPage() {
         setError("Invalid email or password")
       }
     } catch (err: any) {
-      setError("An error occurred. Please try again.")
-      setError(err.message);
-      toast.error(err.message);
+      const error = mapFirebaseAuthError(err);
+      setError(error)
+      setError(error);
+      toast.error(error);
     }
   }
 

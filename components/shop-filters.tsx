@@ -15,8 +15,8 @@ export function ShopFilters({ defaultCategory = "all", handleCategoryChange }: S
 
   const categories = [
     { value: "all", label: "All" },
-    { value: "tops", label: "Tops" },
-    { value: "pants", label: "Pants" },
+    { value: "top", label: "Tops" },
+    { value: "pant", label: "Pants" },
     { value: "men", label: "Men" },
     { value: "women", label: "Women" },
   ]
