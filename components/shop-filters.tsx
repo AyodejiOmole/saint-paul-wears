@@ -17,8 +17,8 @@ export function ShopFilters({ defaultCategory = "all", handleCategoryChange }: S
     { value: "all", label: "All" },
     { value: "top", label: "Tops" },
     { value: "pant", label: "Pants" },
-    { value: "men", label: "Men" },
-    { value: "women", label: "Women" },
+    // { value: "men", label: "Men" },
+    // { value: "women", label: "Women" },
   ]
 
   return (
@@ -50,9 +50,9 @@ export function ShopFilters({ defaultCategory = "all", handleCategoryChange }: S
 
       {/* Sort Options */}
       <div className="flex items-center gap-4">
-        <span className="text-sm text-muted-foreground">Sort by:</span>
+        <span className="text-sm text-muted-foreground text-white">Sort by:</span>
         <Select value={sortBy} onValueChange={setSortBy}>
-          <SelectTrigger className="w-40">
+          <SelectTrigger className="text-white">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

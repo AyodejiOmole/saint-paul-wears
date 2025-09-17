@@ -2,51 +2,49 @@
 
 import Link from "next/link"
 import { useState, useEffect } from "react"
-// import { ChevronLeft, ChevronRight } from "lucide-react"
-
 import { Banner } from "@/types"
 import { Button } from "@/components/ui/button"
-
-// const heroImages = [
-//   {
-//     src: "/images/hero-fashion.png",
-//     alt: "Saint Paul Fashion Collection",
-//   },
-//   {
-//     src: "/luxury-fashion-model-wearing-black-streetwear.png",
-//     alt: "Luxury Streetwear",
-//   },
-//   {
-//     src: "/premium-black-clothing-collection-display.png",
-//     alt: "Premium Collection",
-//   },
-//   {
-//     src: "/fashion-model-in-urban-setting-wearing-designer-cl.png",
-//     alt: "Urban Fashion",
-//   },
-// ]
+import { ChevronDown } from "lucide-react"
 
 export function HeroSection({ banners }: { banners: Banner[] }) {
   const heroImages = banners ?? [];
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [scrollY, setScrollY] = useState(0)
+
+  // Rotating taglines for more creativity
+  const taglines = [
+    "WEAR THE MESSAGE",
+    "FAITH IN FASHION", 
+    "SOUL ON FABRIC",
+    "STREET MEETS SPIRIT",
+    "NOT JUST CLOTHES"
+  ];
+  
+  const [currentTagline, setCurrentTagline] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroImages.length)
-    }, 5000)
+    }, 4000) // Faster transitions for more energy
     return () => clearInterval(timer)
+  }, [heroImages.length])
+
+  useEffect(() => {
+    const taglineTimer = setInterval(() => {
+      setCurrentTagline((prev) => (prev + 1) % taglines.length)
+    }, 2000) // Rotating taglines
+    return () => clearInterval(taglineTimer)
   }, [])
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % heroImages.length)
-  }
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + heroImages.length) % heroImages.length)
-  }
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <section className="relative h-[70vh] md:h-[80vh] flex items-center justify-center overflow-hidden">
+    <section className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
+      {/* Background Images with Parallax */}
       <div className="absolute inset-0 z-0">
         {heroImages.map((image, index) => (
           <div
@@ -55,70 +53,79 @@ export function HeroSection({ banners }: { banners: Banner[] }) {
               index === currentSlide ? "opacity-100" : "opacity-0"
             }`}
           >
-            <img src={image.image || "/placeholder.svg"} alt={image.header} className="w-full h-full object-cover" />
+            <div 
+              className="w-full h-full bg-cover bg-center"
+              style={{
+                backgroundImage: `url(${image.image || "/placeholder.svg"})`,
+                transform: `translateY(${scrollY * 0.5}px)` // Parallax effect
+              }}
+            />
           </div>
         ))}
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-black/70" /> {/* Darker overlay for better contrast */}
       </div>
 
-      {/* <button
-        onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition-all duration-300"
-      >
-        <ChevronLeft className="w-6 h-6" />
-      </button> */}
+      {/* WATERMARK LOGO - Gothic style in background */}
+      <div className="absolute inset-0 z-5 flex items-center justify-center opacity-10 pointer-events-none">
+        <div className="text-[15rem] md:text-[20rem] font-black text-red-500/20 transform rotate-12 select-none">
+          ✞
+        </div>
+      </div>
 
-      {/* <button
-        onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition-all duration-300"
-      >
-        <ChevronRight className="w-6 h-6" />
-      </button> */}
+      {/* Main Content with Layered Text */}
+      <div className="relative z-10 text-center text-white max-w-6xl mx-auto px-4">
+        {/* Large Impact Title with Split Styling */}
+        <div className="mb-8">
+          <h1 className="text-6xl md:text-9xl lg:text-[12rem] font-black mb-4 tracking-tighter leading-none">
+            <span className="text-white block">SAINT</span>
+            <span className="text-red-500 block transform -mt-4">PAUL</span>
+          </h1>
+          
+          {/* Animated Rotating Taglines */}
+          <div className="h-16 flex items-center justify-center overflow-hidden">
+            <p className="text-2xl md:text-4xl font-light tracking-[0.3em] uppercase transition-all duration-500 transform">
+              {taglines[currentTagline]}
+            </p>
+          </div>
+        </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex space-x-2">
+        {/* Bold CTA Buttons */}
+        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mt-12">
+          <Button
+            asChild
+            size="lg"
+            className="bg-red-600 hover:bg-red-700 text-white px-12 py-6 text-xl font-black tracking-wider transition-all duration-300 transform hover:scale-110 shadow-2xl border-0"
+          >
+            <Link href="/shop">SHOP NOW</Link>
+          </Button>
+          
+          <Button
+            asChild
+            variant="outline"
+            size="lg"
+            className="border-3 border-white text-white hover:bg-white hover:text-black px-12 py-6 text-xl font-bold bg-transparent tracking-wider transition-all duration-300 transform hover:scale-105"
+          >
+            <Link href="/shop">EXPLORE COLLECTIONS</Link>
+          </Button>
+        </div>
+      </div>
+
+      {/* Slide Indicators - More Creative */}
+      <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 flex space-x-4">
         {heroImages.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentSlide ? "bg-white" : "bg-white/50"
+            className={`w-4 h-4 border-2 border-white transition-all duration-300 transform hover:scale-125 ${
+              index === currentSlide ? "bg-red-500 border-red-500 rotate-45" : "bg-transparent hover:bg-white/50"
             }`}
           />
         ))}
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
-        <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold mb-4 tracking-tight drop-shadow-2xl saint-paul-glow">
-          SAINT PAUL
-        </h1>
-        <p className="text-xl md:text-2xl mb-6 font-light tracking-widest uppercase drop-shadow-lg">
-          Wear the Message
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
-          {/* <Button
-            asChild
-            size="lg"
-            className="bg-accent text-accent-foreground hover:bg-accent/90 px-10 py-4 text-lg font-medium tracking-wide transition-all duration-300 hover:scale-105"
-          >
-            <Link href="/shop">Shop Now</Link>
-          </Button> */}
-          <Button
-            asChild
-            variant="outline"
-            size="lg"
-            className="border-2 border-white text-white hover:bg-white hover:text-black px-8 py-3 text-base font-medium bg-transparent tracking-wide transition-all duration-300 hover:scale-105"
-          >
-            <Link href="/shop">Explore Collections</Link>
-          </Button>
-        </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
-        <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-white rounded-full mt-2 animate-pulse" />
-        </div>
+      {/* Animated Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce z-20">
+        <ChevronDown className="w-8 h-8 text-white/70" />
       </div>
     </section>
   )
