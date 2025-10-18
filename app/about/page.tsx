@@ -267,7 +267,7 @@ const AboutPage = () => {
                 <div className="space-y-6">
                   <div className="bg-black p-0 rounded-2xl overflow-hidden transform hover:scale-105 transition-all duration-300 shadow-2xl">
                     <Image
-                      src="/saint-merch1.jpeg"
+                      src="/7.jpg"
                       alt="Saint Merch 1"
                       width={400}
                       height={500}
@@ -276,7 +276,7 @@ const AboutPage = () => {
                   </div>
                   <div className="bg-black p-0 rounded-2xl overflow-hidden transform hover:scale-105 transition-all duration-300 shadow-2xl">
                     <Image
-                      src="/saint-merch2.jpeg"
+                      src="/8.jpg"
                       alt="Saint Merch 2"
                       width={400}
                       height={500}
@@ -287,7 +287,7 @@ const AboutPage = () => {
                 <div className="space-y-6 mt-12">
                   <div className="bg-black p-0 rounded-2xl overflow-hidden transform hover:scale-105 transition-all duration-300 shadow-2xl">
                     <Image
-                      src="/saint-merch3.jpeg"
+                      src="/10.jpg"
                       alt="Saint Merch 3"
                       width={400}
                       height={500}
@@ -296,7 +296,7 @@ const AboutPage = () => {
                   </div>
                   <div className="bg-black p-0 rounded-2xl overflow-hidden transform hover:scale-105 transition-all duration-300 shadow-2xl">
                     <Image
-                      src="/saint-model8.jpeg"
+                      src="/12.jpg"
                       alt="Saint Merch 4"
                       width={400}
                       height={500}
