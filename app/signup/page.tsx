@@ -5,16 +5,16 @@ import type React from "react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { Eye, EyeOff, UserPlus } from "lucide-react"
+import toast from "react-hot-toast"
+
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Eye, EyeOff, UserPlus } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
-
-import toast from "react-hot-toast"
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -27,7 +27,7 @@ export default function SignupPage() {
   })
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
-  const { signup, isLoading } = useAuth()
+  const { signup, isLoading, setUser } = useAuth()
   const router = useRouter()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,20 +52,35 @@ export default function SignupPage() {
     }
 
     try {
-      const success = await signup({
+      const userData = {
         email: formData.email,
         password: formData.password,
         firstName: formData.firstName,
         lastName: formData.lastName,
         phone: formData.phone,
-      })
+      };
 
-      if (success) {
-        toast.success("Signup successful");
-        router.push("/dashboard")
-      } else {
+      // const success = await signup(userData);
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast.error(data.message);
         setError("Failed to create account")
+        throw new Error(data.message || "Signup failed");
       }
+
+      // Set state and localStorage (optional)
+      setUser(data.user)
+      localStorage.setItem("saint-paul-user", JSON.stringify(data.user))
+
+      toast.success("Signup successful");
+      router.push("/dashboard");
     } catch (err: any) {
       setError("An error occurred. Please try again.")
       toast.error(err.message);
