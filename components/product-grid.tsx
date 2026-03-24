@@ -69,7 +69,7 @@ export function ProductGrid({ isLoading, products }: ProductGridProps) {
                       {/* Product Image with Hover Effect (KEEPING THIS!) */}
                       <div className="relative overflow-hidden">
                         <img
-                          src={hoveredProduct === product.id && product.productImages[1] ? product.productImages[1] : product.productImages[0]}
+                          src={hoveredProduct === product.id && product.productImages[1] ? product.productImages?.[1] : product.productImages?.[0]}
                           alt={product.name}
                           className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-700"
                         />
@@ -116,9 +116,9 @@ export function ProductGrid({ isLoading, products }: ProductGridProps) {
                         </div>
 
                         {/* Image Counter */}
-                        {product.productImages.length > 1 && (
+                        {product.productImages?.length > 1 && (
                           <div className="absolute bottom-3 right-3 bg-black/70 text-white px-2 py-1 rounded-sm text-xs font-bold">
-                            +{product.productImages.length - 1}
+                            +{product.productImages?.length - 1}
                           </div>
                         )}
                       </div>

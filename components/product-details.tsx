@@ -50,7 +50,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
         id: product.id.toString(),
         name: product.name,
         price: product.price,
-        image: product.productImages[0],
+        image: product.productImages?.[0],
         size: selectedSize,
         category: product.category,
         itemQuantity: product.stock,
@@ -78,7 +78,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Product Images */}
-          <ProductImageGallery images={product.productImages} productName={product.name} />
+          <ProductImageGallery images={product?.productImages} productName={product.name} />
 
           {/* Product Information - Enhanced */}
           <div className="space-y-8">

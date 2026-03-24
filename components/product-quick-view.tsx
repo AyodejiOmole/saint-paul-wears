@@ -39,7 +39,7 @@ export function ProductQuickView({ product, isOpen, onClose }: ProductQuickViewP
       id: product.id.toString(),
       name: product.name,
       price: product.price,
-      image: product.productImages[0],
+      image: product.productImages?.[0],
       size: selectedSize,
       category: product.category,
       itemQuantity: product.stock,
@@ -71,22 +71,22 @@ export function ProductQuickView({ product, isOpen, onClose }: ProductQuickViewP
           <div className="space-y-4">
             <div className="relative aspect-square overflow-hidden rounded-lg bg-black border border-gray-800">
               <img
-                src={product.productImages[currentImageIndex] || "/placeholder.svg"}
+                src={product.productImages?.[currentImageIndex] || "/placeholder.svg"}
                 alt={product.name}
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
               />
               
               {/* Image Navigation */}
-              {product.productImages.length > 1 && (
+              {product.productImages?.length > 1 && (
                 <>
                   <button
-                    onClick={() => setCurrentImageIndex(prev => prev === 0 ? product.productImages.length - 1 : prev - 1)}
+                    onClick={() => setCurrentImageIndex(prev => prev === 0 ? product.productImages?.length - 1 : prev - 1)}
                     className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full w-10 h-10 flex items-center justify-center transition-all"
                   >
                     ←
                   </button>
                   <button
-                    onClick={() => setCurrentImageIndex(prev => (prev + 1) % product.productImages.length)}
+                    onClick={() => setCurrentImageIndex(prev => (prev + 1) % product.productImages?.length)}
                     className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full w-10 h-10 flex items-center justify-center transition-all"
                   >
                     →
@@ -94,16 +94,16 @@ export function ProductQuickView({ product, isOpen, onClose }: ProductQuickViewP
                   
                   {/* Image Counter */}
                   <div className="absolute bottom-4 right-4 bg-red-600 text-white px-3 py-1 rounded-sm text-sm font-bold">
-                    {currentImageIndex + 1} / {product.productImages.length}
+                    {currentImageIndex + 1} / {product.productImages?.length}
                   </div>
                 </>
               )}
             </div>
             
             {/* Thumbnail Images */}
-            {product.productImages.length > 1 && (
+            {product.productImages?.length > 1 && (
               <div className="grid grid-cols-4 gap-2">
-                {product.productImages.map((image, index) => (
+                {product.productImages?.map((image, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}

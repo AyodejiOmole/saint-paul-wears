@@ -67,7 +67,7 @@ export function FeaturedProducts() {
                       {/* Product Image */}
                       <div className="relative overflow-hidden">
                         <img
-                          src={product.productImages[0] || "/placeholder.svg"}
+                          src={product.productImages?.[0] || "/placeholder.svg"}
                           alt={product.name}
                           className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-700"
                         />
